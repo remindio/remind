@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_205918) do
 
   create_table "task_list_items", force: :cascade do |t|
     t.string "description"
-    t.boolean "is_completed"
+    t.boolean "task_completed?"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "task_list_id", null: false

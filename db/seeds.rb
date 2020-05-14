@@ -22,5 +22,7 @@ seila = Note.create(title: "ALOALO", description: "GALERA DE COWBOY", environmen
 aloalo = Note.create(title: "OLAOLA", description: "GALERA DE COWBOY", environment_id: 1)
 
 task1 = TaskList.create(title: "seila", environment_id: 1)
-taskitem1 = TaskListItem.create(description: "MEU DEUS ME ELIMINA", task_list_id: 1, is_completed: false)
-taskitem1 = TaskListItem.create(description: "MEU DEUS ME AJUDA", task_list_id: 1, is_completed: false)
+task2 = TaskList.create(title: "maisumatask", environment_id: 1)
+taskitem1 = TaskListItem.create(description: "MEU DEUS ME ELIMINA", task_list_id: 1, task_completed?: false)
+taskitem2 = TaskListItem.create(description: "MEU DEUS ME AJUDA", task_list_id: 1, task_completed?: false)
+taskitem3 = TaskListItem.create(description: "MEU DEUS ME SENHOR", task_list_id: 2, task_completed?: true)
