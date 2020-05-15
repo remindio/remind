@@ -4,14 +4,14 @@ class Api::V1::EnvironmentController < ApplicationController
   end
 
   def show
-    load_tasks_items
+    load_tasks
     load_notes
     load_users
   end
 
   private
-    def load_tasks_items
-      @task_list_items = TaskListItem.joins(:task_list).where(:task_lists => { environment_id: params[:id] })
+    def load_tasks
+      @task_lists = TaskList.joins(:task_list_items).where(:task_lists => { environment_id: params[:id] }).uniq
     end
 
     def load_notes
