@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_205918) do
+ActiveRecord::Schema.define(version: 2020_05_15_221714) do
 
   create_table "environments", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "created_by"
+    t.string "created_by_name"
   end
 
   create_table "notes", force: :cascade do |t|
