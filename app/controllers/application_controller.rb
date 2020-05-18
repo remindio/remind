@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   def render_response(status, message)
     respond_to do |format|
       msg = { :status => status, :message => message }
-      format.json  { render :json => msg } # don't do msg.to_json
+      format.json  { render :json => msg }
     end
   end
 end

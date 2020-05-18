@@ -39,7 +39,6 @@ class Api::V1::EnvironmentController < ApplicationController
 
   def destroy
     @environment = Environment.find(params[:id])
-
     if current_user.id == @environment.created_by
       if @environment.destroy
         render_response("success", "OK!")
