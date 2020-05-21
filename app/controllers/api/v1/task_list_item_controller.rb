@@ -33,5 +33,4 @@ class Api::V1::TaskListItemController < ApplicationController
     def task_list_item_params
       params.permit(:description, :task_completed?)
     end
-  
 end

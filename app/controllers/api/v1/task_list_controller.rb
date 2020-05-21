@@ -34,5 +34,4 @@ class Api::V1::TaskListController < ApplicationController
     def task_list_params
       params.permit(:title)
     end
-
 end

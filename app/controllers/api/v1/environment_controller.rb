@@ -18,9 +18,15 @@ class Api::V1::EnvironmentController < ApplicationController
   end
 
   def show
-    load_tasks
-    load_notes
-    load_users
+    @user_environment = UserEnvironment.find_by(user_id: current_user.id, environment_id: params[:id])
+
+    if @user_environment
+      load_tasks
+      load_notes
+      load_users
+    else
+      render_response("error", "User doesn't have permission to access this environment!")
+    end
   end
 
   def update
@@ -39,6 +45,7 @@ class Api::V1::EnvironmentController < ApplicationController
 
   def destroy
     @environment = Environment.find(params[:id])
+    
     if current_user.id == @environment.created_by
       if @environment.destroy
         render_response("success", "OK!")
