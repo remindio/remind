@@ -1,8 +1,8 @@
 class CreateTaskListItems < ActiveRecord::Migration[6.0]
   def change
     create_table :task_list_items do |t|
-      t.string :description
-      t.boolean :task_completed?
+      t.string :description, null: false, default: 'Task item'
+      t.boolean :task_completed?, null: false, default: false
 
       t.timestamps
     end

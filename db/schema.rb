@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_05_15_221714) do
 
   create_table "environments", force: :cascade do |t|
-    t.string "name"
+    t.string "name", default: "Environment name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "created_by"
@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
   end
 
   create_table "notes", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
+    t.string "title", default: "Note title", null: false
+    t.string "description", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "environment_id", null: false
@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
   end
 
   create_table "task_list_items", force: :cascade do |t|
-    t.string "description"
-    t.boolean "task_completed?"
+    t.string "description", default: "Task item", null: false
+    t.boolean "task_completed?", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "task_list_id", null: false
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
   end
 
   create_table "task_lists", force: :cascade do |t|
-    t.string "title"
+    t.string "title", default: "Task list title", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "environment_id", null: false
@@ -56,6 +56,10 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "occupation", default: "", null: false
+    t.string "profile_url", default: "", null: false
+    t.string "company_name", default: "", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -63,10 +67,6 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "name"
-    t.string "profile_url"
-    t.string "company_name"
-    t.string "occupation"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -53,9 +53,10 @@ class Api::V1::EnvironmentController < ApplicationController
         render_response("error", "Try again!")
       end
     else
-      @user_environment = UserEnvironment.where(user_id: current_user.id, environment_id: @environment.id)
+      @user_environment = UserEnvironment.find_by(user_id: current_user.id, environment_id: @environment.id)
 
-      if @user_environment.delete_all
+      if @user_environment
+        @user_environment.delete
         render_response("success", "OK!")
       else
         render_response("error", "Try again!")
