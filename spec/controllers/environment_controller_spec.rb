@@ -1,9 +1,6 @@
 require 'rails_helper'
 
-# Change this ArticlesController to your project
 RSpec.describe Api::V1::EnvironmentController, type: :controller do
-  # This should return the minimal set of attributes required to create a valid
-  # Article. As you add validations to Article, be sure to adjust the attributes here as well.
   login_user
 
   let(:valid_attributes) {
@@ -30,7 +27,6 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
     { :environment_id => 1, :title => "Teste title", :description => "Tomara q de bom carai"}
   }
 
-
   before do
     Environment.create! valid_attributes
     Environment.create! valid_attributes_2
@@ -46,8 +42,7 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
     render_views
     it "creates an environment and returns a successful response" do
       get :index, params: {}, session: valid_session, :format => :json
-      expect(response).to be_successful # be_successful expects a HTTP Status code of 200
-      # expect(response).to have_http_status(302) # Expects a HTTP Status code of 302
+      expect(JSON.parse(response.body)).to include('environments')
     end
   end
 
@@ -55,7 +50,11 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
     render_views
     it "succesfuly returns the environment created" do
       get :show, params: {:id => 1}, session: valid_session, :format => :json
-      expect(response).to be_successful
+      expect(JSON.parse(response.body)).to include('task_lists', 'notes', 'users')
+    end
+    it "User doesn't have permission to access the environment" do
+      get :show, params: {:id => 2}, session: valid_session, :format => :json
+      expect(JSON.parse(response.body)['status']).to eq('error')
     end
   end
 
@@ -70,6 +69,4 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
       expect(JSON.parse(response.body)['status']).to eq('error')
     end
   end
-
-
 end

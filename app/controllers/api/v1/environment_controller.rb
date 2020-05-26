@@ -18,9 +18,7 @@ class Api::V1::EnvironmentController < ApplicationController
   end
 
   def show
-    @user_environment = UserEnvironment.find_by(user_id: current_user.id, environment_id: params[:id])
-
-    if @user_environment
+    if user_in_environment?(params[:id])
       load_tasks
       load_notes
       load_users
