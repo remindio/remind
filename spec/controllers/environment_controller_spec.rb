@@ -4,7 +4,7 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
   login_user
 
   let(:valid_attributes) {
-      { :name => "Test name!", :created_by => 1 }
+    { :name => "Test name!", :created_by => 1 }
   }
 
   let(:valid_attributes_2) {
@@ -16,15 +16,15 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
   }
 
   let(:valid_task_attributes) {
-    { :environment_id => 1, :title => "TestANDOSAJDNASKJD"}
+    { :environment_id => 1, :title => "Test"}
   }
 
   let(:valid_task_item_attributes) {
-    { :task_list_id => 1, :description => "Fazer testes"}
+    { :task_list_id => 1, :description => "Test 1"}
   }
 
   let(:valid_note_attributes) {
-    { :environment_id => 1, :title => "Teste title", :description => "Tomara q de bom carai"}
+    { :environment_id => 1, :title => "Test title", :description => "Test description"}
   }
 
   before do
@@ -40,33 +40,39 @@ RSpec.describe Api::V1::EnvironmentController, type: :controller do
 
   describe "get #index" do
     render_views
-    it "creates an environment and returns a successful response" do
-      get :index, params: {}, session: valid_session, :format => :json
-      expect(JSON.parse(response.body)).to include('environments')
+    context "when user requests his environments" do
+      it "expects the response.body to have a list of environments" do
+        get :index, params: {}, session: valid_session, :format => :json
+        expect(JSON.parse(response.body)).to include('environments')
+      end
     end
   end
 
   describe "get #show" do
     render_views
-    it "succesfuly returns the environment created" do
-      get :show, params: {:id => 1}, session: valid_session, :format => :json
-      expect(JSON.parse(response.body)).to include('task_lists', 'notes', 'users')
-    end
-    it "User doesn't have permission to access the environment" do
-      get :show, params: {:id => 2}, session: valid_session, :format => :json
-      expect(JSON.parse(response.body)['status']).to eq('error')
+    context "when user requests a specific environment to be rendered" do
+      it "expects the response.body to have all of the environments objects" do
+        get :show, params: {:id => 1}, session: valid_session, :format => :json
+        expect(JSON.parse(response.body)).to include('task_lists', 'notes', 'users')
+      end
+      it "expects the user to not be able to access the environment he's not in" do
+        get :show, params: {:id => 2}, session: valid_session, :format => :json
+        expect(JSON.parse(response.body)['status']).to eq('error')
+      end
     end
   end
 
   describe "delete #destroy" do
     render_views
-    it "user withing the environment successfuly deletes the environment" do
-      delete :destroy, params: {:id => 1}, session: valid_session, :format => :json
-      expect(JSON.parse(response.body)['status']).to eq('success')
-    end
-    it "user not inside the environment tries to delete it" do
-      delete :destroy, params: {:id => 2}, session: valid_session, :format => :json
-      expect(JSON.parse(response.body)['status']).to eq('error')
+    context "when user tries to delete a specific environment" do
+      it "expects the user to be able to delete the environment" do
+        delete :destroy, params: {:id => 1}, session: valid_session, :format => :json
+        expect(JSON.parse(response.body)['status']).to eq('success')
+      end
+      it "expects the user not to be able to delete the environment as he's not in it" do
+        delete :destroy, params: {:id => 2}, session: valid_session, :format => :json
+        expect(JSON.parse(response.body)['status']).to eq('error')
+      end
     end
   end
 end
