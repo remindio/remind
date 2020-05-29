@@ -1,0 +1,35 @@
+@import "../../utilities.scss";
+
+.navbar {
+  height: 64px;
+  width: 100%;
+  padding: 16px;
+  background-color: $primary_color;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+}
+
+.container-environment {
+  width: 500px;
+  background-color: $primary_color;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  margin-left: 32px;
+  cursor: pointer;
+}
+
+.container-environment h1 {
+  font-size: 20px;
+  font-weight: normal;
+  color: #ffffff;
+  margin: 12px;
+}

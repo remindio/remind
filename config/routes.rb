@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/index'
+  root 'home#index'
   devise_for :users, :skip => [:registrations] 
   as :user do
     get 'users/cancel' => 'users/registrations#cancel', :as => :cancel_user_registration
@@ -23,4 +25,6 @@ Rails.application.routes.draw do
       resources :environment, only: [:index, :create, :destroy, :update]
     end
   end
+
+  get "*path", to: "home#index", :constraints => lambda{|req| req.path !~ /.(png|jpg|js|css|json)$/ }
 end
