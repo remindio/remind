@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { GrEdit } from 'react-icons/gr'
-import { FaRegWindowMinimize } from 'react-icons/fa'
 import { AiOutlineMinusSquare } from 'react-icons/ai'
-import { BsPencil } from 'react-icons/bs'
+import TaskListItem from '../TaskListItem'
+
 import './style.scss'
 
 export default function Note(props) {
@@ -22,6 +21,7 @@ export default function Note(props) {
         
       </div>
       <div className="container-description">
+        <TaskListItem description="Salvar gubitoso!" />
         <p>{props.description}</p>
       </div>
     </div>

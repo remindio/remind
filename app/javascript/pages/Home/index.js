@@ -1,6 +1,7 @@
 import React from "react";
-import Navbar from '../Navbar/'
-import Note from '../Note/'
+import Navbar from '../../components/Navbar'
+import Note from '../../components/Note'
+
 
 export default function Home() {
   return (

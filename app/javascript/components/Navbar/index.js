@@ -7,7 +7,7 @@ import './style.scss'
 export default function Navbar(props) {
   return (
     <div className="navbar">
-      <div className="container">
+      <div className="navbar-container">
         <Link>
           <BsChevronDoubleRight size={24} style={{ color: "#FFFFFF" }} />
         </Link>
