@@ -2,7 +2,7 @@ import React from 'react'
 import logo from '../../assets/Remind.svg'
 import './style.scss'
 
-export default function SignIn() {
+export default function SignUp() {
   return (
     <div className="outer-container">
       <div className="container">
