@@ -2,7 +2,7 @@ import React/*, { useState, useEffect, useRef }*/ from 'react'
 import { Link } from 'react-router-dom'
 import './style.scss'
 
-export default function MenuOption(props) {
+export default function OptionMenu(props) {
   /*const containerRef = useRef(null);
   const [positionX, setPositionX] = useState(containerRef.current.clientWidth);
   const [positionY, setPositionY] = useState(containerRef.current.clientHeight);
@@ -22,11 +22,12 @@ export default function MenuOption(props) {
       setPositionY(props.positionY);
   }, [])*/
 
+
   return (
     <div className="container-menu" style={{ top: props.positionY, left: props.positionX }} /*ref={containerRef}*/>
       <div className="content-menu">
-        <Link className="content-menu-links">Add new note</Link>
-        <Link className="content-menu-links">Add new list</Link>
+        <Link onClick={props.createNote} className="content-menu-links">Add new note</Link>
+        <Link onClick={props.createList} className="content-menu-links">Add new list</Link>
       </div>
     </div>
   );
