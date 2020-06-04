@@ -1,35 +1,59 @@
 import React, { useState, useEffect, useRef } from "react"
-import ReactDOM from 'react-dom'
 import Navbar from '../../components/Navbar'
 import Note from '../../components/Note'
 import OptionMenu from '../../components/OptionMenu'
+import api, { apiUrl } from '../../services/api'
 import './style.scss'
 
 export default function Home() {
   const [menu, setMenu] = useState('')
-  const [notes, setNote] = useState([])
+  const [notes, setNotes] = useState([])
   const [positionX, setPositionX] = useState(0)
   const [positionY, setPositionY] = useState(0)
   const [isMenuShowing, setIsMenuShowing] = useState(false)
   const [contentHeight, setContentHeight] = useState(0)
   const contentRef = useRef(null)
+
+  async function fetchEnvironment() {
+    const response = await api.get(apiUrl + 'environment')
+    const renderNotes = response.data.notes.map(note =>
+      <Note key={note.id} isTask={false} title={note.title} description={note.description} positionX={0} positionY={0}/>
+    )
+    const renderTasks = response.data.task_lists.map(task => 
+      <Note key={task.id} isTask={true} title={task.title} items={task.task_list_items} positionX={0} positionY={0}/>
+    )
+
+    setNotes([renderNotes, renderTasks])
+  }
+
+  async function fetchEnvironmentContent() {
+    const response = await api.get(apiUrl + 'environment/1')
+    const renderNotes = response.data.notes.map(note =>
+      <Note key={note.id} isTask={false} title={note.title} description={note.description} positionX={0} positionY={0}/>
+    )
+    const renderTasks = response.data.task_lists.map(task => 
+      <Note key={task.id} isTask={true} title={task.title} items={task.task_list_items} positionX={0} positionY={0}/>
+    )
+
+    setNotes([renderNotes, renderTasks])
+  }
+
+  useEffect(() => {
+    fetchEnvironment()
+    fetchEnvironmentContent()
+  }, [])
   
   function createNote() {
-    setNote([...notes, <Note title='Nota' description='alo gubitoso' positionX={positionX} positionY={positionY} />])
+    setNotes([...notes, <Note title='Nota' isTask={false} description='' positionX={positionX} positionY={positionY} />])
     setMenu(false)
     isMenuShowing(false)
   }
 
   function createList() {
-    setNote([...notes, <Note title='Lista' description='alo gubitoso' positionX={positionX} positionY={positionY}/>])
+    setNotes([...notes, <Note title='Lista' isTask={true} items={[]} positionX={positionX} positionY={positionY}/>])
     setMenu(false)
     isMenuShowing(false)
   }
-
-  useEffect(() => {
-
-  }, [notes])
-
   
   useEffect(() => {
     if (isMenuShowing)

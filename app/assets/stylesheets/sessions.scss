@@ -1,0 +1,163 @@
+@import '../../javascript/utilities.scss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background-color: #E5E5E5;
+  font-family: "Roboto", sans-serif;
+  overflow: hidden;
+}
+
+.outer-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  background-color: #f8f9fc;
+  margin: auto;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.inner-container {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 50px auto;
+}
+
+.inner-container img {
+  margin: 30px auto 20px auto;
+  width: 250px;
+  height: 100px;
+}
+
+.inner-container-form {
+  display: flex;
+  flex-direction: column;
+  margin: 25px 0;
+}
+
+.form-input {
+  padding: 10px;
+  margin: 2px 0 10px 0;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+.form-input::placeholder {
+  font-size: 16px;
+}
+
+.inner-container-options {
+  display: flex;
+  margin: 5px 0 15px 0;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+}
+
+.inner-container-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.container-checkbox {
+  display: block;
+  position: relative;
+  padding-left: 24px;
+  cursor: pointer;
+  font-size: 15px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 17px;
+  width: 17px;
+  background-color: #dfdfdf;
+  border: 1px solid #ccc;
+}
+
+/* On mouse-over, add a grey background color */
+.container-checkbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container-checkbox input:checked ~ .checkmark {
+  background-color: $second_color;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container-checkbox .checkmark:after {
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 9px;
+  border: 1px solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.form-button {
+  padding: 10px 15px;
+  background-color: $second_color;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.form-button:hover {
+  filter: brightness(90%);
+}
+
+.container .inner-container p {
+  font-weight: normal;
+  margin: 0 auto 25px auto;
+}
