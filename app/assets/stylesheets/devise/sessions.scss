@@ -1,0 +1,97 @@
+@import '../../../javascript/utilities.scss';
+@import '../../../javascript/global.scss';
+
+.login-outer-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-outer-container .login-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  background-color: #f8f9fc;
+  margin: auto;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.login-outer-container .login-container .login-inner-container {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 50px auto;
+}
+
+.login-outer-container .login-container .login-inner-container img {
+  margin: 30px auto 50px auto;
+  width: 250px;
+  height: 100px;
+}
+
+.login-outer-container .login-container .login-inner-container .login-inner-container-form {
+  display: flex;
+  flex-direction: column;
+  margin: 25px 0;
+}
+
+.login-form-input {
+  width: 100%;
+  padding: 10px;
+  margin: 2px 0 10px 0;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+.login-form-input::placeholder {
+  font-size: 16px;
+}
+
+.login-inner-container-options {
+  display: flex;
+  margin: 5px 0 15px 0;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+}
+
+.login-inner-container-options .login-inner-container-checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login-inner-container-options .login-inner-container-checkbox .checkbox-style {
+  margin-right: 5px;
+}
+
+.login-inner-container-links {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-outer-container .login-container .login-inner-container .login-form-button {
+  width: 100%;
+  padding: 10px 15px;
+  background-color: $second_color;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.login-form-button:hover {
+  filter: brightness(90%);
+}
+
+.login-outer-container .login-container .login-inner-container p {
+  font-weight: normal;
+  margin: 25px auto 30px auto;
+}

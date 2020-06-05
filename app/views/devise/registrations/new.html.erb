@@ -1,29 +1,19 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="signup-outer-container">
+  <div class="signup-container">
+    <div class="signup-inner-container">
+      <%= image_tag("Remind.svg", :alt => "Remind") %>
+      <%= form_for(resource, as: resource_name, class: "signup-inner-container-form", url: registration_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder: "Name", class: "signup-form-input"%>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "signup-form-input" %> 
+        <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password (6 characters minimum)", class: "signup-form-input" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Password confirmation", class: "signup-form-input" %>
+        <div class="signup-form-button-container">
+          <%= f.submit "Sign up", class: 'signup-form-button' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+</div>
 
 <%= render "devise/shared/links" %>

@@ -20,8 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
-        # respond_with resource, location: after_sign_up_path_for(resource)
-        render_response("success", "OK!")
+        respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!
@@ -50,8 +49,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
-      #respond_with resource, location: after_update_path_for(resource)
-      render_response("success", "OK!")
+      respond_with resource, location: after_update_path_for(resource)
+
     else
       clean_up_passwords resource
       set_minimum_password_length

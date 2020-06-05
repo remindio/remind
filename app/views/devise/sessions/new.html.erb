@@ -1,30 +1,26 @@
-<div class="outer-container">
-  <div class="container">
-    <div class="inner-container">
+<div class="login-outer-container">
+  <div class="login-container">
+    <div class="login-inner-container">
       <%= image_tag("Remind.svg", :alt => "Remind") %>
-      <%= form_for(resource, as: resource_name, class: "inner-container-form", url: session_path(resource_name)) do |f| %>
-        <%= f.email_field :email, placeholder: "Email", autofocus: true, autocomplete: "email", class: "form-input" %>
-        <%= f.password_field :password, class: "form-input", placeholder: "Password", autocomplete: "current-password" %>
+      <%= form_for(resource, as: resource_name, class: "login-inner-container-form", url: session_path(resource_name)) do |f| %>
+        <%= f.email_field :email, placeholder: "Email", autofocus: true, autocomplete: "email", class: "login-form-input" %>
+        <%= f.password_field :password, class: "login-form-input", placeholder: "Password", autocomplete: "current-password" %>
 
-        <div class="inner-container-options">
+        <div class="login-inner-container-options">
           <% if devise_mapping.rememberable? %>
-            <div class="container-checkbox">
-              <%= f.check_box :remember_me %>
+            <div class="login-inner-container-checkbox ">
+              <%= f.check_box :remember_me, class: "checkbox-style" %>
+              <%= f.label :remember_me %>
             </div>
           <% end %>
-          <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-            <%= link_to "Forgot your password?", new_password_path(resource_name), class: "inner-container-links" %><br />
-          <% end %>
+          <div class="login-inner-container-links">
+            <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+              <%= link_to "Forgot your password?", new_password_path(resource_name), class: "login-inner-container-links" %><br />
+            <% end %>
+          </div>
         </div>
 
-        <% if devise_mapping.rememberable? %>
-          <div class="field">
-            <%= f.check_box :remember_me %>
-            <%= f.label :remember_me %>
-          </div>
-        <% end %>
-
-        <%= f.submit "Sign in", class: 'form-button' %>
+        <%= f.submit "Sign in", class: 'login-form-button' %>
       <% end %>
       <p>Don't have an account? 
         <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
