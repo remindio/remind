@@ -1,6 +1,8 @@
 json.task_lists @task_lists.each do |task_list|
   json.id task_list.id
   json.title task_list.title
+  json.positionX task_list.positionX
+  json.positionY task_list.positionY
 
   json.task_list_items task_list.task_list_items.each do |task_list_item|
     json.id task_list_item.id
@@ -13,6 +15,8 @@ json.notes @notes.each do |note|
   json.id note.id
   json.title note.title
   json.description note.description
+  json.positionX note.positionX
+  json.positionY note.positionY
 end
 
 json.users @users.each do |user|

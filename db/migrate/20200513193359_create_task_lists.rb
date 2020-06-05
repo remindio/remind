@@ -2,6 +2,8 @@ class CreateTaskLists < ActiveRecord::Migration[6.0]
   def change
     create_table :task_lists do |t|
       t.string :title, null: false, default: 'Task list title'
+      t.integer :positionX, null: false, default: 0
+      t.integer :positionY, null: false, default: 65
       
 
       t.timestamps

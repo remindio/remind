@@ -23,6 +23,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
   create_table "notes", force: :cascade do |t|
     t.string "title", default: "Note title", null: false
     t.string "description", default: "", null: false
+    t.integer "positionX", default: 0, null: false
+    t.integer "positionY", default: 65, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "environment_id", null: false
@@ -40,6 +42,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_221714) do
 
   create_table "task_lists", force: :cascade do |t|
     t.string "title", default: "Task list title", null: false
+    t.integer "positionX", default: 0, null: false
+    t.integer "positionY", default: 65, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "environment_id", null: false

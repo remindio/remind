@@ -6,6 +6,8 @@ import api, { apiUrl } from '../../services/api'
 import './style.scss'
 
 export default function Home() {
+  const [currentEnvironmentName, setCurrentEnvironmentName] = useState('')
+  const [environments, setEnvironments] = useState([])
   const [menu, setMenu] = useState('')
   const [notes, setNotes] = useState([])
   const [positionX, setPositionX] = useState(0)
@@ -15,24 +17,18 @@ export default function Home() {
   const contentRef = useRef(null)
 
   async function fetchEnvironment() {
-    const response = await api.get(apiUrl + 'environment')
-    const renderNotes = response.data.notes.map(note =>
-      <Note key={note.id} isTask={false} title={note.title} description={note.description} positionX={0} positionY={0}/>
-    )
-    const renderTasks = response.data.task_lists.map(task => 
-      <Note key={task.id} isTask={true} title={task.title} items={task.task_list_items} positionX={0} positionY={0}/>
-    )
-
-    setNotes([renderNotes, renderTasks])
+    const response = await api.get(apiUrl + 'environment')  
+    setCurrentEnvironmentName(response.data.environments[0]['name'])
+    setEnvironments(response.data.environments)
   }
 
   async function fetchEnvironmentContent() {
     const response = await api.get(apiUrl + 'environment/1')
     const renderNotes = response.data.notes.map(note =>
-      <Note key={note.id} isTask={false} title={note.title} description={note.description} positionX={0} positionY={0}/>
+      <Note key={note.id} isTask={false} title={note.title} description={note.description} positionX={note.positionX} positionY={note.positionY}/>
     )
     const renderTasks = response.data.task_lists.map(task => 
-      <Note key={task.id} isTask={true} title={task.title} items={task.task_list_items} positionX={0} positionY={0}/>
+      <Note key={task.id} isTask={true} title={task.title} items={task.task_list_items} positionX={task.positionX} positionY={task.positionY}/>
     )
 
     setNotes([renderNotes, renderTasks])
@@ -99,7 +95,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar title="Environment name" />
+      <Navbar environmentList={environments} currentEnvironment={currentEnvironmentName}/>
       <div className="content" onContextMenu={renderOptionMenu} onMouseDown={hideOptionMenu} ref={contentRef}>
         {notes}
         {menu}
