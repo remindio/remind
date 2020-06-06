@@ -4,10 +4,11 @@ import TaskListItem from '../TaskListItem'
 import './style.scss'
 
 export default function Note(props) {
-  const [posX, setPosX] = useState(props.positionX)
-  const [posY, setPosY] = useState(props.positionY)
+  const [posX, setPosX] = useState(window.innerWidth * props.positionX/1920)
+  const [posY, setPosY] = useState(window.innerHeight * props.positionY/942)
   const contentRef = useRef(null)
   let offsetX, offsetY
+  /* Usando como base uma tela de 1920 x 1080 que no navegador fica 1920x942 com barra de favoritos ativa */
 
   function movingNote(event) {
     setPosX(event.pageX - offsetX)

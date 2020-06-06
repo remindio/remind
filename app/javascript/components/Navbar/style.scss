@@ -23,7 +23,7 @@
   background-color: $primary_color;
   border: 1px solid #ffffff;
   border-radius: 5px;
-  margin-left: 18px;
+  margin-left: 25px;
   cursor: pointer;
 }
 
@@ -48,10 +48,18 @@
 .navbar .navbar-container .container-environments:hover ul li {
   list-style: none;
   background-color: $primary_color;
-  border: 1px solid #ffffff;
+  border: 1px #ffffff;
+  border-style: solid solid none solid;
   border-radius: 5px;
   padding: 12px;
   color: #ffffff;
   font-size: 20px;
   font-weight: normal;
+}
+
+.navbar .navbar-container .container-environments:hover ul .new-environment {
+  display: flex;
+  align-items: center;
+  border-style: dashed solid solid solid;
+  font-weight: 300;
 }
