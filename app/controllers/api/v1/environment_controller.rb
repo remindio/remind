@@ -10,7 +10,8 @@ class Api::V1::EnvironmentController < ApplicationController
       @user_environment = UserEnvironment.new(user_id: current_user.id, environment_id: @environment.id)
 
       if @user_environment.save
-        render_response("success", "OK!")
+        environment = { :id => @environment.id, :name => @environment.name, :created_by => @environment.created_by, :created_by_name => @environment.created_by_name }
+        render_response("success", environment)
       end
     else
       render_response("error", "Try again!")
@@ -32,7 +33,8 @@ class Api::V1::EnvironmentController < ApplicationController
 
     if current_user.id == @environment.created_by
       if @environment.update(environment_params)
-        render_response("success", "OK!")
+        environment = { :id => @environment.id, :name => @environment.name }
+        render_response("success", environment)
       else
         render_response("error", "Try again!")
       end
@@ -76,6 +78,6 @@ class Api::V1::EnvironmentController < ApplicationController
     end
 
     def environment_params
-      params.permit(:name)
+      params.require(:environment).permit(:name)
     end
 end

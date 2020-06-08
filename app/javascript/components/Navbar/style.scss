@@ -20,23 +20,33 @@
 
 .navbar .navbar-container .container-environments {
   width: 500px;
-  background-color: $primary_color;
-  border: 1px solid #ffffff;
-  border-radius: 5px;
+  // background-color: $primary_color;
+  // border: 1px solid #ffffff;
+  // border-radius: 5px;
   margin-left: 25px;
-  cursor: pointer;
+  // cursor: pointer;
 }
 
-.navbar .navbar-container .container-environments h1 {
+.navbar .navbar-container .container-environments input {
+  display: block;
+  background-color: $primary_color;
+  border: 1px solid #fff;
+  width: 500px;
+  border-radius: 5px;
   font-size: 20px;
   font-weight: normal;
   color: #ffffff;
   padding: 12px;
 }
 
+.navbar .navbar-container .container-environments input:focus {
+  outline: none;
+}
+
 .navbar .navbar-container .container-environments ul {
   width: 500px;
   display: none;
+  cursor: pointer;
 }
 
 .navbar .navbar-container .container-environments:hover ul {

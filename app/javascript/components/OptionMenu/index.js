@@ -1,5 +1,4 @@
 import React/*, { useState, useEffect, useRef }*/ from 'react'
-import { Link } from 'react-router-dom'
 import './style.scss'
 
 export default function OptionMenu(props) {

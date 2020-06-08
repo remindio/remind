@@ -6,8 +6,8 @@ import api, { apiUrl } from '../../services/api'
 import './style.scss'
 
 export default function Home() {
-  const [currentEnvironment, setCurrentEnvironment] = useState('')
-  const [environments, setEnvironments] = useState([])
+  const [currentEnvironmentID, setCurrentEnvironmentID] = useState(0)
+  const [environmentList, setEnvironmentList] = useState([])
   const [optionMenu, setOptionMenu] = useState([])
   const [notes, setNotes] = useState([])
   const [tasks, setTasks] = useState([])
@@ -18,7 +18,11 @@ export default function Home() {
   const contentRef = useRef(null)
 
   useEffect(() => {
-    fetchEnvironment()
+    async function loadEnvironments() {
+      const response = await api.get(`${apiUrl}/environment`) 
+      setEnvironmentList(response.data.environments)
+    }
+    loadEnvironments()
   }, [])
 
   useEffect(() => {
@@ -37,14 +41,8 @@ export default function Home() {
       setOptionMenu([])
   }, [isMenuShowing])
 
-  async function fetchEnvironment() {
-    const response = await api.get(apiUrl + 'environment')  
-    setCurrentEnvironment(response.data.environments[0].name)
-    setEnvironments(response.data.environments)
-    await fetchEnvironmentContent(response.data.environments[0].id)
-  }
-
   async function fetchEnvironmentContent(id) {
+    setCurrentEnvironmentID(id)
     const response = await api.get(`${apiUrl}/environment/${id}`)
     setNotes(response.data.notes)
     setTasks(response.data.task_lists)
@@ -111,16 +109,17 @@ export default function Home() {
   return (
     <>
       <Navbar 
-        environmentList={environments} 
-        currentEnvironment={currentEnvironment} 
-        fetchEnvironment={fetchEnvironmentContent} />
+        environmentList={environmentList} 
+        fetchEnvironmentContent={fetchEnvironmentContent} />
       <div className="content" onContextMenu={renderOptionMenu} onMouseDown={hideOptionMenu} ref={contentRef}>
         {notes.length > 0 && notes.map(note =>
-          <Note 
-            key={note.id} 
-            isTask={false} 
+          <Note
+            key={note.id}
+            id={note.id}
             title={note.title} 
             description={note.description} 
+            isTask={false} 
+            environment_id={currentEnvironmentID}
             positionX={note.positionX} 
             positionY={note.positionY} 
           />
@@ -128,9 +127,11 @@ export default function Home() {
         {tasks.length > 0 && tasks.map(task =>
           <Note 
             key={task.id}
-            isTask={true}
+            id={task.id}
             title={task.title} 
-            items={task.task_list_items} 
+            items={task.task_list_items}
+            isTask={true}
+            environment_id={currentEnvironmentID}
             positionX={task.positionX} 
             positionY={task.positionY}
           />
