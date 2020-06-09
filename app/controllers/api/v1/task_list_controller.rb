@@ -1,11 +1,31 @@
 class Api::V1::TaskListController < ApplicationController
   def create
     if user_in_environment?(params[:environment_id])
-      @task_list = TaskList.new(environment_id: params[:environment_id])
+      task_list = task_list_params
+
+      @task_list = TaskList.new(
+        environment_id: params[:environment_id],
+        positionX: task_list[:positionX],
+        positionY: task_list[:positionY]
+      )
 
       if @task_list.save
-        @task_list = TaskListItem.create(task_list_id: @task_list.id, description: "Task 1")
-        render_response("success", "OK!")
+        @task_list_item = TaskListItem.create(task_list_id: @task_list.id, description: "Task 1")
+        
+        task_list = {
+          :id => @task_list.id,
+          :title => @task_list.title,
+          :positionX => @task_list.positionX,
+          :positionY => @task_list.positionY,
+          :task_list_items => [
+            {
+              :id => @task_list_item.id,
+              :description => @task_list_item.description,
+              :task_completed => @task_list_item.task_completed?
+            }
+          ]
+        }
+        render_response("success", task_list)
       else
         render_response("error", "Failed while creating a task list")
       end

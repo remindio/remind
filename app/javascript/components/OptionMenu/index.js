@@ -22,8 +22,11 @@ export default function OptionMenu(props) {
   return (
     <div className="container-menu" style={{ top: props.positionY, left: props.positionX }} /*ref={containerRef}*/>
       <div className="content-menu">
-        <a onClick={props.createNote} className="content-menu-links">Add new note</a>
-        <a onClick={props.createList} className="content-menu-links">Add new list</a>
+        {
+          props.links.map(link => (
+            <a key={link.description} onClick={link.function} className="content-menu-links">{link.description}</a>
+          ))
+        }
       </div>
     </div>
   );

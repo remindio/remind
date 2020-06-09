@@ -19,9 +19,17 @@ export default function Home() {
 
   useEffect(() => {
     async function loadEnvironments() {
-      const response = await api.get(`${apiUrl}/environment`) 
-      setEnvironmentList(response.data.environments)
+      const response = await api.get(`${apiUrl}/environment`)
+
+      if (response.data.environments.length === 0) {
+        const newEnvironmentResponse = await api.post(`${apiUrl}/environment`)
+        setEnvironmentList([newEnvironmentResponse.data.message])
+      }
+      else {
+        setEnvironmentList(response.data.environments)
+      }
     }
+
     loadEnvironments()
   }, [])
 
@@ -34,7 +42,17 @@ export default function Home() {
       setOptionMenu([
         {
           positionX: positionX,
-          positionY: positionY
+          positionY: positionY,
+          links: [
+            {
+              description: 'Add new note',
+              function: () => createNote()
+            },
+            {
+              description: 'Add new list',
+              function: () => createList()
+            }
+          ]
         }
       ])
     else
@@ -48,30 +66,28 @@ export default function Home() {
     setTasks(response.data.task_lists)
   }
 
-  function createNote() {
-    setNotes([...notes, 
-      {
-        id: notes[notes.length - 1].id + 1,
-        title: 'Nota',
-        description: '',
+  async function createNote() {
+    const response = await api.post(`${apiUrl}/environment/${currentEnvironmentID}/note`, {
+      note: {
         positionX: positionX,
         positionY: positionY
       }
-    ])
+    })
+
+    setNotes([...notes, response.data.message])
     setOptionMenu(false)
     setIsMenuShowing(false)
   }
 
-  function createList() {
-    setTasks([...tasks, 
-      {
-        id: tasks[tasks.length - 1].id + 1,
-        title: 'Lista',
-        task_list_items: [],
+  async function createList() {
+    const response = await api.post(`${apiUrl}/environment/${currentEnvironmentID}/task_list`, {
+      task_list: {
         positionX: positionX,
         positionY: positionY
       }
-    ])
+    })
+
+    setTasks([...tasks, response.data.message])
     setOptionMenu(false)
     setIsMenuShowing(false)
   }
@@ -141,8 +157,7 @@ export default function Home() {
             key={1}
             positionX={menu.positionX} 
             positionY={menu.positionY} 
-            createNote={createNote} 
-            createList={createList} 
+            links={menu.links}
           />
         )}
       </div>

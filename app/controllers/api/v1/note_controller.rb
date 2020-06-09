@@ -1,10 +1,22 @@
 class Api::V1::NoteController < ApplicationController
   def create
     if user_in_environment?(params[:environment_id])
-      @note = Note.new(environment_id: params[:environment_id])
+      note = note_params
+      @note = Note.new(
+        environment_id: params[:environment_id],
+        positionX: note[:positionX],
+        positionY: note[:positionY]
+      )
 
       if @note.save
-        render_response("success", "OK!")
+        note = { 
+          :id => @note.id, 
+          :title => @note.title, 
+          :description => @note.description, 
+          :positionX => @note.positionX,
+          :positionY => @note.positionY
+        }
+        render_response("success", note)
       else
         render_response("error", "Failed while creating a note")
       end
