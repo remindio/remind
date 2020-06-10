@@ -1,54 +1,58 @@
 import React, { useState, useEffect, useRef } from 'react'
 import api, { apiUrl } from '../../services/api'
 import { AiOutlineMinusSquare } from 'react-icons/ai'
+import { BsTrash } from 'react-icons/bs'
 import TaskListItem from '../TaskListItem'
-import OptionMenu from '../OptionMenu'
 import './style.scss'
 
 export default function Note(props) {
   const [posX, setPosX] = useState(window.innerWidth * props.positionX/1920)
   const [posY, setPosY] = useState(window.innerHeight * props.positionY/942)
-  const [isContentShowing, setIsContentShowing] = useState(true)
-  const [optionMenu, setOptionMenu] = useState([])
-  const [isMenuShowing, setIsMenuShowing] = useState(false)
+  const [isContentMinimized, setIsContentMinimized] = useState(props.minimized)
   const noteRef = useRef(null)
   const contentRef = useRef(null)
   let offsetX, offsetY
 
   useEffect(() => {
-    if (isContentShowing) {
-      contentRef.current.style.display = "block"
-      noteRef.current.style.backgroundColor = "#FFFFFF"
-    }
-    else {
+    if (isContentMinimized) {
       contentRef.current.style.display = "none"
       noteRef.current.style.backgroundColor = "transparent"
+      noteRef.current.style.zIndex = 0
     }
-  }, [isContentShowing])
+    else {
+      contentRef.current.style.display = "block"
+      noteRef.current.style.backgroundColor = "#FFFFFF"
+      noteRef.current.style.zIndex = 1
+    }
+  }, [isContentMinimized])
 
-  useEffect(() => {
-    if (isMenuShowing)
-      setOptionMenu([
-        {
-          positionX: posX,
-          positionY: posY,
-          links: [
-            {
-              description: 'Delete note',
-              function: () => deleteNote()
-            }
-          ]
+  async function changeNoteDisplay() {
+    console.log('alo')
+    if (!props.isTask) {
+      await api.put(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`, {
+        note: {
+          "minimized?": !isContentMinimized
         }
-      ])
-    else
-      setOptionMenu([])
-  }, [isMenuShowing])
+      })
+    }
+    else {
+      await api.put(`${apiUrl}/environment/${props.environment_id}/task_list/${props.id}`, {
+        task_list: {
+          "minimized?": !isContentMinimized
+        }
+      })
+    }
+  }
 
-  function deleteNote() {
-    console.log('ALOO')
+  async function deleteNote() {
+    if (!props.isTask)
+      await api.delete(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`)
+    else
+      await api.delete(`${apiUrl}/environment/${props.environment_id}/task_list/${props.id}`)
+    
+    props.fetchEnvironmentContent(props.environment_id)
   }
   
-
   function movingNote(event) {
     setPosX(event.pageX - offsetX)
     
@@ -64,9 +68,11 @@ export default function Note(props) {
     document.onmousemove = movingNote
   }
 
-  function cancelNoteSelection() {
+  function cancelNoteSelection(event) {
     document.onmouseup = null
     document.onmousemove = null
+    if (event.target.id === 'trash-button' || event.target.id === 'minimize-button')
+      return
     changeNotePosition()
   }
 
@@ -91,28 +97,31 @@ export default function Note(props) {
       })
     }
   }
-
-  function renderOptionMenu(event) {
-    const positionX = event.clientX
-    const positionY = event.clientY
-    event.preventDefault()
-
-    console.log('OPA')
-    setIsMenuShowing(true)
-  }
   
   return (
-    <div style={{ top: posY, left: posX }} onContextMenu={renderOptionMenu} ref={noteRef} className="note">
+    <div style={{ top: posY, left: posX }} ref={noteRef} className="note">
       <div onMouseDown={setNotePosition} onMouseUp={cancelNoteSelection} className="navbar-note" id="navbar">
         <div className="note-title">
           <h1>{props.title}</h1>
         </div>
 
         <div className="container-icons">
+          <BsTrash
+            id="trash-button"
+            size={20}
+            style={{ color: "#FFFFFF", marginRight: 2 }} 
+            onClick={()=> {
+              deleteNote()
+            }}
+          />
           <AiOutlineMinusSquare 
+            id="minimize-button"
             size={24} 
             style={{ color: "#FFFFFF", borderRadius: 15 }} 
-            onClick={() => setIsContentShowing(!isContentShowing)} 
+            onClick={() => { 
+              setIsContentMinimized(!isContentMinimized)
+              changeNoteDisplay()
+            }} 
           />
         </div>
         
@@ -123,14 +132,6 @@ export default function Note(props) {
         )}
         {!props.isTask && <p>{props.description}</p>}
       </div>
-      {optionMenu.length > 0 && optionMenu.map(menu =>
-        <OptionMenu
-          key={1}
-          positionX={menu.positionX} 
-          positionY={menu.positionY} 
-          links={menu.links}
-        />
-      )}
     </div>
   )
 }

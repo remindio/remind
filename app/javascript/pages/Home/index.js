@@ -137,7 +137,9 @@ export default function Home() {
             isTask={false} 
             environment_id={currentEnvironmentID}
             positionX={note.positionX} 
-            positionY={note.positionY} 
+            positionY={note.positionY}
+            minimized={note.minimized}
+            fetchEnvironmentContent={fetchEnvironmentContent}
           />
         )}
         {tasks.length > 0 && tasks.map(task =>
@@ -150,6 +152,8 @@ export default function Home() {
             environment_id={currentEnvironmentID}
             positionX={task.positionX} 
             positionY={task.positionY}
+            minimized={task.minimized}
+            fetchEnvironmentContent={fetchEnvironmentContent}
           />
         )}
         {optionMenu.length > 0 && optionMenu.map(menu =>

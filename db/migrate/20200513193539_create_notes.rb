@@ -5,6 +5,7 @@ class CreateNotes < ActiveRecord::Migration[6.0]
       t.string :description, null: false, default: ''
       t.integer :positionX, null: false, default: 0
       t.integer :positionY, null: false, default: 65
+      t.boolean :minimized?, null: false, default: false
 
       t.timestamps
     end
