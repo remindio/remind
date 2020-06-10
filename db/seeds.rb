@@ -25,7 +25,7 @@ note1 = Note.create(title: "Séries", description: "Séries de taylor é muito c
 note2 = Note.create(title: "Sequências", description: "Sequências é muito chato", environment_id: 1, positionX: 916, positionY: 90)
 task_list1 = TaskList.create(title: "Assuntos da prova", environment_id: 1, positionX: 622, positionY: 89)
 task_list2 = TaskList.create(title: "O que falta estudar", environment_id: 1, positionX: 344, positionY: 86)
-task_list_item1 = TaskListItem.create(description: "Séries de taylor", task_list_id: 1, task_completed?: false)
+task_list_item1 = TaskListItem.create(description: "Séries de taylor", task_list_id: 1, task_completed?: true)
 task_list_item2 = TaskListItem.create(description: "Funções sequenciais", task_list_id: 1, task_completed?: false)
 task_list_item3 = TaskListItem.create(description: "Sequências", task_list_id: 2, task_completed?: true)
 

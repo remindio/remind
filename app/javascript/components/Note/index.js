@@ -128,7 +128,15 @@ export default function Note(props) {
       </div>
       <div className="container-description" ref={contentRef}>
         {props.isTask && props.items.map(item => 
-          <TaskListItem key={item.id} description={item.description} />
+          <TaskListItem 
+            key={item.id}
+            id={item.id}
+            description={item.description}
+            taskCompleted={item.task_completed}
+            task_id={props.id}
+            environment_id={props.environment_id}
+            fetchEnvironmentContent={props.fetchEnvironmentContent}
+          />
         )}
         {!props.isTask && <p>{props.description}</p>}
       </div>
