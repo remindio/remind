@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import api, { apiUrl } from '../../services/api'
 import { RiSettings2Line } from 'react-icons/ri'
 import { BsChevronDoubleRight } from 'react-icons/bs'
@@ -10,6 +10,7 @@ export default function Navbar(props) {
   const [filteredEnvironmentList, setFilteredEnvironmentList] = useState([])
   const [selectedEnvironmentID, setSelectedEnvironmentID] = useState(0)
   const [selectedEnvironment, setSelectedEnvironment] = useState({ name: '' })
+  const environmentNameRef = useRef(null)
   
   useEffect(() => {
     setEnvironmentList(props.environmentList)
@@ -43,9 +44,9 @@ export default function Navbar(props) {
   }
 
   async function handleNameUpdate(event) {
-    const newEnvironmentName = event.target.value
+    const newEnvironmentName = event.target.textContent
     setSelectedEnvironment({...selectedEnvironment, name: newEnvironmentName})
-
+    
     const response = await api.put(`${apiUrl}/environment/${selectedEnvironment.id}`, {
       environment: {
         name: newEnvironmentName
@@ -60,6 +61,12 @@ export default function Navbar(props) {
         return environment
       }))
     }
+
+    props.mainRef.current.onclick = null
+  }
+
+  function unfocusEditable() {
+    props.mainRef.current.onclick = () => {props.unfocusTarget(environmentNameRef)}
   }
 
   return (
@@ -67,7 +74,16 @@ export default function Navbar(props) {
       <div className="navbar-container">
         <BsChevronDoubleRight size={24} style={{ color: "#FFFFFF", cursor: "pointer" }}/>
         <div className="container-environments">
-          <input onChange={handleNameUpdate} type="text" value={selectedEnvironment ? selectedEnvironment.name : ''}/>
+          <h1
+            ref={environmentNameRef}
+            spellCheck={false}
+            contentEditable={true} 
+            suppressContentEditableWarning={true} 
+            onBlur={handleNameUpdate}
+            onFocus={unfocusEditable}
+            onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
+            >{selectedEnvironment ? selectedEnvironment.name : ''}
+          </h1>
           <ul>
             {filteredEnvironmentList.length > 0 && filteredEnvironmentList.map(environment => (
               <li key={environment.id} onClick={handleSelectEnvironment} id={environment.id}>{environment.name}</li>

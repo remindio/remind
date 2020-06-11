@@ -38,7 +38,8 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    if (isMenuShowing)
+    if (isMenuShowing) {
+      contentRef.current.onmousedown = (event) => hideOptionMenu(event)
       setOptionMenu([
         {
           positionX: positionX,
@@ -55,8 +56,11 @@ export default function Home() {
           ]
         }
       ])
-    else
+    }
+    else {
       setOptionMenu([])
+      contentRef.current.onmousedown = null
+    }
   }, [isMenuShowing])
 
   async function fetchEnvironmentContent(id) {
@@ -122,40 +126,53 @@ export default function Home() {
       setIsMenuShowing(false)
   }
 
+  function unfocusTarget(ref) {
+    ref.current.blur()
+  }
+
   return (
     <>
-      <Navbar 
+      <Navbar
+        unfocusTarget={unfocusTarget}
         environmentList={environmentList} 
-        fetchEnvironmentContent={fetchEnvironmentContent} />
-      <div className="content" onContextMenu={renderOptionMenu} onMouseDown={hideOptionMenu} ref={contentRef}>
-        {notes.length > 0 && notes.map(note =>
-          <Note
-            key={note.id}
-            id={note.id}
-            title={note.title} 
-            description={note.description} 
-            isTask={false} 
-            environment_id={currentEnvironmentID}
-            positionX={note.positionX} 
-            positionY={note.positionY}
-            minimized={note.minimized}
-            fetchEnvironmentContent={fetchEnvironmentContent}
-          />
-        )}
-        {tasks.length > 0 && tasks.map(task =>
-          <Note 
-            key={task.id}
-            id={task.id}
-            title={task.title} 
-            items={task.task_list_items}
-            isTask={true}
-            environment_id={currentEnvironmentID}
-            positionX={task.positionX} 
-            positionY={task.positionY}
-            minimized={task.minimized}
-            fetchEnvironmentContent={fetchEnvironmentContent}
-          />
-        )}
+        fetchEnvironmentContent={fetchEnvironmentContent}
+        mainRef={contentRef}
+      />
+      <div className="content" onContextMenu={renderOptionMenu} /*onMouseDown={hideOptionMenu}*/ ref={contentRef}>
+        <div>
+          {notes.length > 0 && notes.map(note =>
+            <Note
+              unfocusTarget={unfocusTarget}
+              mainRef={contentRef}
+              key={note.id}
+              id={note.id}
+              title={note.title} 
+              description={note.description} 
+              isTask={false} 
+              environment_id={currentEnvironmentID}
+              positionX={note.positionX} 
+              positionY={note.positionY}
+              minimized={note.minimized}
+              fetchEnvironmentContent={fetchEnvironmentContent}
+            />
+          )}
+          {tasks.length > 0 && tasks.map(task =>
+            <Note 
+              unfocusTarget={unfocusTarget}
+              mainRef={contentRef}
+              key={task.id}
+              id={task.id}
+              title={task.title} 
+              items={task.task_list_items}
+              isTask={true}
+              environment_id={currentEnvironmentID}
+              positionX={task.positionX} 
+              positionY={task.positionY}
+              minimized={task.minimized}
+              fetchEnvironmentContent={fetchEnvironmentContent}
+            />
+          )}
+        </div>
         {optionMenu.length > 0 && optionMenu.map(menu =>
           <OptionMenu
             key={1}
