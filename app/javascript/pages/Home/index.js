@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import Navbar from '../../components/Navbar'
 import Note from '../../components/Note'
 import OptionMenu from '../../components/OptionMenu'
-import api, { apiUrl } from '../../services/api'
+import { Environments, Notes, Tasks } from '../../services'
 import './style.scss'
 
 export default function Home() {
@@ -19,10 +19,10 @@ export default function Home() {
 
   useEffect(() => {
     async function loadEnvironments() {
-      const response = await api.get(`${apiUrl}/environment`)
+      const response = await Environments.index()
 
       if (response.data.environments.length === 0) {
-        const newEnvironmentResponse = await api.post(`${apiUrl}/environment`)
+        const newEnvironmentResponse = await Environments.create()
         setEnvironmentList([newEnvironmentResponse.data.message])
       }
       else {
@@ -65,18 +65,20 @@ export default function Home() {
 
   async function fetchEnvironmentContent(id) {
     setCurrentEnvironmentID(id)
-    const response = await api.get(`${apiUrl}/environment/${id}`)
+    const response = await Environments.show(id)
     setNotes(response.data.notes)
     setTasks(response.data.task_lists)
   }
 
   async function createNote() {
-    const response = await api.post(`${apiUrl}/environment/${currentEnvironmentID}/note`, {
+    const params = {
       note: {
         positionX: positionX,
         positionY: positionY
       }
-    })
+    }
+
+    const response = await Notes.create(currentEnvironmentID, params)
 
     setNotes([...notes, response.data.message])
     setOptionMenu(false)
@@ -84,12 +86,14 @@ export default function Home() {
   }
 
   async function createList() {
-    const response = await api.post(`${apiUrl}/environment/${currentEnvironmentID}/task_list`, {
+    const params = {
       task_list: {
         positionX: positionX,
         positionY: positionY
       }
-    })
+    }
+
+    const response = await Tasks.create(currentEnvironmentID, params)
 
     setTasks([...tasks, response.data.message])
     setOptionMenu(false)

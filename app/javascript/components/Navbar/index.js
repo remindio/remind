@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import api, { apiUrl } from '../../services/api'
+import { Environments } from '../../services'
 import { RiSettings2Line } from 'react-icons/ri'
 import { BsChevronDoubleRight } from 'react-icons/bs'
 import { IoMdAddCircleOutline } from 'react-icons/io'
@@ -7,7 +7,6 @@ import './style.scss'
 
 export default function Navbar(props) {
   const [environmentList, setEnvironmentList] = useState([])
-  const [filteredEnvironmentList, setFilteredEnvironmentList] = useState([])
   const [selectedEnvironmentID, setSelectedEnvironmentID] = useState(0)
   const [selectedEnvironment, setSelectedEnvironment] = useState({ name: '' })
   const environmentNameRef = useRef(null)
@@ -19,8 +18,6 @@ export default function Navbar(props) {
 
   useEffect(() => {
     if (selectedEnvironment !== undefined) {
-      setFilteredEnvironmentList(environmentList.filter(environment => environment.id !== selectedEnvironment.id))
-
       if (selectedEnvironment.id !== selectedEnvironmentID)
         setSelectedEnvironmentID(selectedEnvironment.id)
     }
@@ -38,35 +35,40 @@ export default function Navbar(props) {
   }
 
   async function handleNewEnvironment() {
-    const response = await api.post(`${apiUrl}/environment/`)
+    const response = await Environments.create()
     setEnvironmentList([...environmentList, response.data.message])
     setSelectedEnvironment(response.data.message)
   }
 
   async function handleNameUpdate(event) {
     const newEnvironmentName = event.target.textContent
+
     setSelectedEnvironment({...selectedEnvironment, name: newEnvironmentName})
-    
-    const response = await api.put(`${apiUrl}/environment/${selectedEnvironment.id}`, {
+
+    const params = {
       environment: {
         name: newEnvironmentName
       }
-    })
+    }
+
+    const response = await Environments.update(selectedEnvironment.id, params)
 
     if (response.data.status === "success") {
-      setEnvironmentList(environmentList.map(environment => {
+      const newEnvironmentList = environmentList.map(environment => {
         if (environment.id === selectedEnvironment.id)
           return { ...environment, name: newEnvironmentName }
         
         return environment
-      }))
+      })
+
+      setEnvironmentList(newEnvironmentList)
     }
 
     props.mainRef.current.onclick = null
   }
 
   function unfocusEditable() {
-    props.mainRef.current.onclick = () => {props.unfocusTarget(environmentNameRef)}
+    props.mainRef.current.onclick = () => props.unfocusTarget(environmentNameRef)
   }
 
   return (
@@ -85,12 +87,18 @@ export default function Navbar(props) {
             >{selectedEnvironment ? selectedEnvironment.name : ''}
           </h1>
           <ul>
-            {filteredEnvironmentList.length > 0 && filteredEnvironmentList.map(environment => (
-              <li key={environment.id} onClick={handleSelectEnvironment} id={environment.id}>{environment.name}</li>
-              
-            ))}
+            {environmentList.length > 0 && environmentList.map(environment => {
+              if (environment.id === selectedEnvironment.id)
+                return null
+
+              return (
+                <li key={environment.id} onClick={handleSelectEnvironment} id={environment.id}>
+                  {environment.name}
+                </li>
+              )
+            })}
               <li onClick={handleNewEnvironment} className="new-environment">
-                <IoMdAddCircleOutline size={24} style ={{ color: "#FFFFFF", marginRight: "5px"}} />
+                <IoMdAddCircleOutline size={24} style ={{ color: "#FFFFFF", marginRight: "5px" }} />
                 Create new environment
               </li>
           </ul>

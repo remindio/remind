@@ -23,18 +23,31 @@
 
 .navbar-note .note-title {
   margin-left: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
 }
 
 .navbar-note .note-title h1 {
   font-size: 20px;
   font-weight: normal;
   color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-note .note-title h1:focus {
+  overflow: unset;
+  white-space: nowrap;
 }
 
 .navbar-note .container-icons {
   display: flex;
   align-items: center;
   margin-right: 10px;
+  margin-left: 5px;
 }
 
 .note .container-description {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import api, { apiUrl } from '../../services/api'
+import { Notes, Tasks } from '../../services'
 import { AiOutlineMinusSquare } from 'react-icons/ai'
 import { BsTrash } from 'react-icons/bs'
 import TaskListItem from '../TaskListItem'
@@ -32,26 +32,30 @@ export default function Note(props) {
 
   async function handleNoteDisplay() {
     if (!props.isTask) {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`, {
+      const params = {
         note: {
           "minimized?": !isContentMinimized
         }
-      })
+      }
+
+      await Notes.update(props.environment_id, props.id, params)
     }
     else {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/task_list/${props.id}`, {
+      const params = {
         task_list: {
           "minimized?": !isContentMinimized
         }
-      })
+      }
+
+      await Tasks.update(props.environment_id, props.id, params)
     }
   }
 
   async function deleteNote() {
     if (!props.isTask)
-      await api.delete(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`)
+      await Notes.delete(props.environment_id, props.id)
     else
-      await api.delete(`${apiUrl}/environment/${props.environment_id}/task_list/${props.id}`)
+      await Tasks.delete(props.environment_id, props.id)
     
     props.fetchEnvironmentContent(props.environment_id)
   }
@@ -81,23 +85,27 @@ export default function Note(props) {
 
   async function handleNotePosition() {
     if (!props.isTask) {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`, {
+      const params = {
         note: {
           title: props.title,
           description: props.description,
           positionX: positionX,
           positionY: positionY   
         }
-      })
+      }
+
+      await Notes.update(props.environment_id, props.id, params)
     }
     else {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/task_list/${props.id}`, {
+      const params = {
         task_list: {
           title: props.title,
           positionX: positionX,
           positionY: positionY   
         }
-      })
+      }
+
+      await Tasks.update(props.environment_id, props.id, params)
     }
   }
 
@@ -106,23 +114,26 @@ export default function Note(props) {
     setTitle(newTitle)
 
     if (!props.isTask) {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`, {
+      const params = {
         note: {
           title: newTitle,
           description: description,
           positionX: positionX,
           positionY: positionY   
         }
-      })
+      }
+
+      await Notes.update(props.environment_id, props.id, params)
     }
     else {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/task_list/${props.id}`, {
+      const params = {
         task_list: {
           title: newTitle,
           positionX: positionX,
           positionY: positionY   
         }
-      })
+      }
+      await Tasks.update(props.environment_id, props.id, params)
     }
 
     props.mainRef.current.onclick = null
@@ -133,25 +144,52 @@ export default function Note(props) {
     setDescription(newDescription)
 
     if (!props.isTask) {
-      await api.put(`${apiUrl}/environment/${props.environment_id}/note/${props.id}`, {
+      const params = {
         note: {
           title: title,
           description: newDescription,
           positionX: positionX,
           positionY: positionY   
         }
-      })
+      }
+
+      await Notes.update(props.environment_id, props.id, params)
     }
+
     props.mainRef.current.onclick = null
   }
 
   function unfocusEditable(ref) {
-    props.mainRef.current.onclick = () => {props.unfocusTarget(ref)}
+    props.mainRef.current.onclick = () => props.unfocusTarget(ref)
+  }
+
+  function handleMouseDownEvent(event) {
+    const elementId = event.target.id
+    switch (elementId) {
+      case 'note-title':
+      case 'trash-button':
+      case 'minimize-button':
+        return
+      default:
+        setNotePosition(event)
+    }
+  }
+
+  function handleMouseUpEvent(event) {
+    const elementId = event.target.id
+    switch (elementId) {
+      case 'note-title':
+      case 'trash-button':
+      case 'minimize-button':
+        return
+      default:
+        handleNoteSelection(event)
+    }
   }
   
   return (
     <div style={{ top: positionY, left: positionX }} ref={noteRef} className="note">
-      <div onMouseDown={setNotePosition} onMouseUp={handleNoteSelection} className="navbar-note" id="navbar">
+      <div onMouseDown={handleMouseDownEvent} onMouseUp={handleMouseUpEvent} className="navbar-note" id="navbar">
         <div className="note-title">
           <h1
             ref={titleRef}
@@ -160,7 +198,7 @@ export default function Note(props) {
             contentEditable={true} 
             suppressContentEditableWarning={true} 
             onBlur={handleTitleUpdate}
-            onMouseDown={(event) => {event.stopPropagation(); unfocusEditable(titleRef)}}
+            onClick={() => unfocusEditable(titleRef)}
             onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
             >{title}
           </h1>
@@ -171,9 +209,7 @@ export default function Note(props) {
             id="trash-button"
             size={20}
             style={{ color: "#FFFFFF", marginRight: 2 }} 
-            onClick={()=> {
-              deleteNote()
-            }}
+            onClick={deleteNote}
           />
           <AiOutlineMinusSquare 
             id="minimize-button"
@@ -195,20 +231,24 @@ export default function Note(props) {
             description={item.description}
             taskCompleted={item.task_completed}
             task_id={props.id}
+            mainRef={props.mainRef}
+            unfocusTarget={props.unfocusTarget}
             environment_id={props.environment_id}
             fetchEnvironmentContent={props.fetchEnvironmentContent}
           />
         )}
         {!props.isTask &&
           <p
+            id="note-description"
             ref={descriptionRef}
             spellCheck={false}
             contentEditable={true} 
             suppressContentEditableWarning={true} 
             onBlur={handleDescriptionUpdate}
-            onMouseDown={(event) => {event.stopPropagation(); unfocusEditable(descriptionRef)}}
-            onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
-          >{description}</p>
+            onClick={() => unfocusEditable(descriptionRef)}
+            onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}>
+              {description}
+          </p>
         }
       </div>
     </div>

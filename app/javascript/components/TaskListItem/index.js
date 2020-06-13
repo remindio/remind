@@ -1,25 +1,48 @@
-import React, { useState } from 'react'
-import api, { apiUrl } from '../../services/api'
+import React, { useState, useRef } from 'react'
+import { TaskItems } from '../../services'
 import { TiDeleteOutline } from 'react-icons/ti'
 import './style.scss'
 
 export default function TaskListItem(props) {
   const [description, setDescription] = useState(props.description)
+  const descriptionRef = useRef(null)
 
   async function handleIsCompleted(event) {
     const { checked } = event.target
-    const url = `${apiUrl}/environment/${props.environment_id}/task_list/${props.task_id}/task_list_item/${props.id}`
-    await api.put(url, {
+    const params = {
       task_list_item: {
         "task_completed?": checked
       }
-    })
+    }
+
+    await TaskItems.update(props.environment_id, props.task_id, props.id, params)
   }
 
   async function handleDeleteTaskItem() {
-    const url = `${apiUrl}/environment/${props.environment_id}/task_list/${props.task_id}/task_list_item/${props.id}`
-    await api.delete(url)
+    await TaskItems.delete(props.environment_id, props.task_id, props.id)
     props.fetchEnvironmentContent(props.environment_id)
+  }
+
+  async function handleDescriptionUpdate(event) {
+    const newDescription = event.target.textContent
+    setDescription(newDescription)
+
+    if (!props.isTask) {
+      const params = {
+        task_list_item: {
+          description: newDescription
+        }
+      }
+
+      await TaskItems.update(props.environment_id, props.task_id, props.id, params)
+    }
+
+    props.mainRef.current.onclick = null
+  }
+
+
+  function unfocusEditable(ref) {
+    props.mainRef.current.onclick = () => props.unfocusTarget(ref)
   }
 
   return (
@@ -27,8 +50,14 @@ export default function TaskListItem(props) {
       <div>
         <input type="checkbox" defaultChecked={props.taskCompleted} onClick={handleIsCompleted} />
         <p
-          onChange={(e) => setDescription(e.target.value)}>
-            {description}
+          ref={descriptionRef}
+          spellCheck={false}
+          contentEditable={true} 
+          suppressContentEditableWarning={true} 
+          onBlur={handleDescriptionUpdate}
+          onClick={() => unfocusEditable(descriptionRef)}
+          onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}>
+           {description}
         </p>
       </div>
 

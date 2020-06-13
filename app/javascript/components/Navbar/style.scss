@@ -24,6 +24,7 @@
   border: 1px solid #ffffff;
   border-radius: 5px;
   margin-left: 25px;
+  overflow: hidden;
   // cursor: pointer;
 }
 
@@ -36,12 +37,17 @@
   font-size: 20px;
   font-weight: normal;
   color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   // padding: 12px;
   margin: 12px;
 }
 
 .navbar .navbar-container .container-environments h1:focus {
   outline: none;
+  overflow: unset;
+  white-space: nowrap;
 }
 
 .navbar .navbar-container .container-environments ul {
@@ -66,6 +72,9 @@
   color: #ffffff;
   font-size: 20px;
   font-weight: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .navbar .navbar-container .container-environments:hover ul .new-environment {
