@@ -66,7 +66,8 @@ class Api::V1::EnvironmentController < ApplicationController
 
   private
     def load_tasks
-      @task_lists = TaskList.joins(:task_list_items).where(:task_lists => { environment_id: params[:id] }).uniq
+      # @task_lists = TaskList.joins(:task_list_items).where(:task_lists => { environment_id: params[:id] }).uniq
+      @task_lists = TaskList.where(environment_id: params[:id])
     end
 
     def load_notes

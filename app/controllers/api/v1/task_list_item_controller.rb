@@ -1,4 +1,12 @@
 class Api::V1::TaskListItemController < ApplicationController
+
+  def index
+    if user_in_environment?(params[:environment_id])
+      @task_list_items = TaskListItem.where(task_list_id: params[:task_list_id])
+    end
+  end
+
+
   def create
     if user_in_environment?(params[:environment_id])
       @task_list_item = TaskListItem.new(task_list_id: params[:task_list_id])

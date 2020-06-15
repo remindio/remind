@@ -20,7 +20,7 @@ export default function TaskListItem(props) {
 
   async function handleDeleteTaskItem() {
     await TaskItems.delete(props.environment_id, props.task_id, props.id)
-    props.fetchEnvironmentContent(props.environment_id)
+    props.getItems()
   }
 
   async function handleDescriptionUpdate(event) {
@@ -42,12 +42,20 @@ export default function TaskListItem(props) {
 
 
   function unfocusEditable(ref) {
-    props.mainRef.current.onclick = () => props.unfocusTarget(ref)
+    props.mainRef.current.onclick = (event) => {
+      if (ref.current.id !== event.target.id)
+        props.unfocusTarget(ref)
+    }
+  }
+
+  function handleEditableKeyPress(event) {
+    if (event.keyCode === 13 && !event.shiftKey)
+      event.target.blur()
   }
 
   return (
     <div className="container-item">
-      <div>
+      <div className="left-container-item">
         <input type="checkbox" defaultChecked={props.taskCompleted} onClick={handleIsCompleted} />
         <p
           ref={descriptionRef}
@@ -56,15 +64,14 @@ export default function TaskListItem(props) {
           suppressContentEditableWarning={true} 
           onBlur={handleDescriptionUpdate}
           onClick={() => unfocusEditable(descriptionRef)}
-          onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}>
-           {description}
+          data-content={description? description : 'Task item'}
+          onKeyDown={handleEditableKeyPress}>
+            {description? description : 'Task item'}
         </p>
       </div>
-
       <div className="delete-icon">
-        <TiDeleteOutline size={20} style={{ opacity: 0.5, cursor: 'pointer' }} onClick={handleDeleteTaskItem} />
+        <TiDeleteOutline size={18} style={{ opacity: 0.5, cursor: 'pointer' }} onClick={handleDeleteTaskItem} />
       </div>
-      
     </div>
    
   )

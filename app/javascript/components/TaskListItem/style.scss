@@ -4,69 +4,59 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  width: 100%;
   font-size: 16px;
   margin-bottom: 5px;
 }
 
-.container-item .delete-icon {
-  display: none;
-}
-
-.container-item:hover .delete-icon {
-  display: block;
-}
-
-.container-item div {
+.container-item .left-container-item {
   display: flex;
-  flex-direction: row;
+  align-items: baseline;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
-.container-item div input[type="checkbox"] {
+input[type='checkbox'] {
   position: relative;
-  width: 1.2em;
-  height: 1.2em;
-  border: 1px solid #606060;
-  border-radius: 4px;
   appearance: none;
-  outline: 0;
+  outline: none;
+  padding: 5px;
+  border: 1px solid $second_color;
+  border-radius: 2px;
   cursor: pointer;
-  transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
   &::before {
     position: absolute;
     content: '';
-    display: block;
-    left: 4px;
-    bottom: 3px;
-    width: 4px;
-    height: 10px;
+    left: 3px;
+    bottom: 2px;
+    width: 3px;
+    height: 7px;
     border-style: solid;
     border-color: #fff;
-    border-width: 0 2px 2px 0;
+    border-width: 0 1.5px 1.5px 0;
     transform: rotate(45deg);
     opacity: 0;
   }
   &:checked {
-    border-color: $second_color;
-    background: $second_color;
+    background-color: $second_color;
     &::before {
       opacity: 1;
-    }
-    ~ label::before {
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
   }
 }
 
-.container-item div p {
-  padding-left: 0.3em;
-  &::before {
-    position: absolute;
-    content: attr(data-content);
-    clip-path: polygon(0 0, 0 0, 0% 100%, 0 100%);
-    text-decoration: line-through;
-    text-decoration-color: #303030;
-    transition: clip-path 200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-  }
+.container-item .left-container-item p {
+  margin-left: 0.3em;
+  width: 100%;
 }
+
+.container-item .delete-icon {
+  display: flex;
+  align-items: baseline;
+  opacity: 0;
+}
+
+.container-item:hover .delete-icon {
+  opacity: 80%;
+}
+

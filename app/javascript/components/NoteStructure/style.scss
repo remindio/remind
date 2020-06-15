@@ -1,0 +1,61 @@
+@import "../../utilities.scss";
+
+.note {
+  position: absolute;
+  width: 200px;
+  height: 250px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  display: block;
+  flex-direction: column;
+}
+
+.navbar-note {
+  width: 100%;
+  height: 48px;
+  background-color: $second_color;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-note .note-title {
+  margin-left: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-note .note-title h1 {
+  font-size: 20px;
+  font-weight: normal;
+  color: #ffffff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.navbar-note .note-title h1:focus {
+  overflow: unset;
+  white-space: nowrap;
+}
+
+.navbar-note .container-icons {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.note .container-description {
+  width: 100%;
+  height: 200px;
+  background-color: #ffffff;
+  padding: 15px 12px 15px 12px;
+  font-size: 16px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

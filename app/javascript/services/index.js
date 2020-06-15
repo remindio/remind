@@ -18,11 +18,14 @@ const Tasks = {
   create: (environmentId, params) => api.post(`${apiUrl}/environment/${environmentId}/task_list`, params),
   update: (environmentId, taskId, params) => api.put(`${apiUrl}/environment/${environmentId}/task_list/${taskId}`, params),
   delete: (environmentId, taskId) => api.delete(`${apiUrl}/environment/${environmentId}/task_list/${taskId}`)
+  
+
 }
 
 const TaskItems = {
   update: (environmentId, taskId, itemId, params) => api.put(`${apiUrl}/environment/${environmentId}/task_list/${taskId}/task_list_item/${itemId}`, params),
-  delete: (environmentId, taskId, itemId) => api.delete(`${apiUrl}/environment/${environmentId}/task_list/${taskId}/task_list_item/${itemId}`)
+  delete: (environmentId, taskId, itemId) => api.delete(`${apiUrl}/environment/${environmentId}/task_list/${taskId}/task_list_item/${itemId}`),
+  index: (environmentId, taskId) => api.get(`${apiUrl}/environment/${environmentId}/task_list/${taskId}/task_list_item`)
 }
 
 export { Environments, Notes, Tasks, TaskItems }

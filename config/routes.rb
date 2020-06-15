@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :environment, only: :show do
         resources :task_list, only: [:update, :destroy, :create] do 
-          resources :task_list_item, only: [:create, :update, :destroy]
+          resources :task_list_item, only: [:index, :create, :update, :destroy]
         end
         resources :user_environment, only: [:create]
         resources :note, only: [:update, :destroy, :create]

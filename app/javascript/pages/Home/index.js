@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import Navbar from '../../components/Navbar'
-import Note from '../../components/Note'
+import NoteStructure from '../../components/NoteStructure'
 import OptionMenu from '../../components/OptionMenu'
 import { Environments, Notes, Tasks } from '../../services'
 import './style.scss'
@@ -145,7 +145,7 @@ export default function Home() {
       <div className="content" onContextMenu={renderOptionMenu} /*onMouseDown={hideOptionMenu}*/ ref={contentRef}>
         <div>
           {notes.length > 0 && notes.map(note =>
-            <Note
+            <NoteStructure
               unfocusTarget={unfocusTarget}
               mainRef={contentRef}
               key={note.id}
@@ -161,13 +161,13 @@ export default function Home() {
             />
           )}
           {tasks.length > 0 && tasks.map(task =>
-            <Note 
+            <NoteStructure
               unfocusTarget={unfocusTarget}
               mainRef={contentRef}
               key={task.id}
               id={task.id}
               title={task.title} 
-              items={task.task_list_items}
+              // items={task.task_list_items}
               isTask={true}
               environment_id={currentEnvironmentID}
               positionX={task.positionX} 
