@@ -5,7 +5,6 @@ export default function Note(props) {
   const [description, setDescription] = useState(props.description)
   const descriptionRef = useRef(null)
 
-
   async function handleDescriptionUpdate(event) {
     const newDescription = event.target.textContent
     setDescription(newDescription)
@@ -16,8 +15,7 @@ export default function Note(props) {
       }
     }
       
-      await Notes.update(props.environment_id, props.id, params)
-    
+    await Notes.update(props.environment_id, props.id, params)
 
     props.mainRef.current.onclick = null
   }
@@ -34,6 +32,5 @@ export default function Note(props) {
       onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}>
       {description? description : 'Note description'}
     </p>
-
   )
 }

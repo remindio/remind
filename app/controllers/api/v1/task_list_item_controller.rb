@@ -6,13 +6,17 @@ class Api::V1::TaskListItemController < ApplicationController
     end
   end
 
-
   def create
     if user_in_environment?(params[:environment_id])
       @task_list_item = TaskListItem.new(task_list_id: params[:task_list_id])
 
       if @task_list_item.save
-        render_response("success", "OK!")
+        task_list_item = {
+          :id => @task_list_item.id,
+          :description => @task_list_item.description,
+          :task_completed => @task_list_item.task_completed?
+        }
+        render_response("success", task_list_item)
       else
         render_response("error", "Failed while creating a task list item")
       end

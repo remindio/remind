@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TaskItems } from '../../services'
 import { TiDeleteOutline } from 'react-icons/ti'
 import './style.scss'
@@ -6,6 +6,12 @@ import './style.scss'
 export default function TaskListItem(props) {
   const [description, setDescription] = useState(props.description)
   const descriptionRef = useRef(null)
+
+  useEffect(() => {
+    if (description === '')
+      descriptionRef.current.focus()
+    
+  }, [props.description])
 
   async function handleIsCompleted(event) {
     const { checked } = event.target
@@ -49,8 +55,13 @@ export default function TaskListItem(props) {
   }
 
   function handleEditableKeyPress(event) {
-    if (event.keyCode === 13 && !event.shiftKey)
-      event.target.blur()
+    if (event.keyCode === 13 && !event.shiftKey) {
+      event.preventDefault()
+      props.createTaskItem()
+    }
+    else if (event.keyCode === 8 && event.target.textContent === '') {
+      props.deleteTaskItem(props.id)
+    }
   }
 
   return (
@@ -60,13 +71,13 @@ export default function TaskListItem(props) {
         <p
           ref={descriptionRef}
           spellCheck={false}
-          contentEditable={true} 
+          contentEditable={true}
+          placeholder="Task item"
           suppressContentEditableWarning={true} 
           onBlur={handleDescriptionUpdate}
-          onClick={() => unfocusEditable(descriptionRef)}
-          data-content={description? description : 'Task item'}
-          onKeyDown={handleEditableKeyPress}>
-            {description? description : 'Task item'}
+          onFocus={() => unfocusEditable(descriptionRef)}
+          onKeyDown={(event) => handleEditableKeyPress(event)}>
+            {description}
         </p>
       </div>
       <div className="delete-icon">

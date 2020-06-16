@@ -22,19 +22,12 @@ export default function NoteStructure(props) {
       noteRef.current.style.backgroundColor = "transparent"
       noteRef.current.style.zIndex = 0
     }
-
     else {
       contentRef.current.style.display = "block"
       noteRef.current.style.backgroundColor = "#FFFFFF"
       noteRef.current.style.zIndex = 1
     }
-
-    handleNoteDisplay()
   }, [isContentMinimized])
-
-  async function handleNoteDisplay() {
-    handleUpdates(title)
-  }
 
   async function deleteNote() {
     if (!props.isTask)
@@ -65,49 +58,21 @@ export default function NoteStructure(props) {
     document.onmousemove = null
     if (event.target.id === 'trash-button' || event.target.id === 'minimize-button')
       return
-    handleNotePosition()
-  }
-
-  async function handleNotePosition() {
-    handleUpdates(title)
+    handleUpdates(title, isContentMinimized)
   }
 
   async function handleTitleUpdate(event) {
     const newTitle = event.target.textContent
     setTitle(newTitle)
-
-    // if (!props.isTask) {
-    //   const params = {
-    //     note: {
-    //       title: newTitle,
-    //       // description: description,
-    //       positionX: positionX,
-    //       positionY: positionY   
-    //     }
-    //   }
-
-    //   await Notes.update(props.environment_id, props.id, params)
-    // }
-    // else {
-    //   const params = {
-    //     task_list: {
-    //       title: newTitle,
-    //       positionX: positionX,
-    //       positionY: positionY   
-    //     }
-    //   }
-    //   await Tasks.update(props.environment_id, props.id, params)
-    // }
-    handleUpdates(newTitle)
+    handleUpdates(newTitle, isContentMinimized)
     props.mainRef.current.onclick = null
   }
 
-  async function handleUpdates(newTitle) {
+  async function handleUpdates(newTitle, isContentMinimized) {
     if (!props.isTask) {
       const params = {
         note: {
           title: newTitle,
-
           positionX: positionX,
           positionY: positionY, 
           "minimized?": isContentMinimized
@@ -116,7 +81,6 @@ export default function NoteStructure(props) {
 
       await Notes.update(props.environment_id, props.id, params)
     }
-
     else {
       const params = {
         task_list: {
@@ -126,6 +90,7 @@ export default function NoteStructure(props) {
           "minimized?": isContentMinimized 
         }
       }
+
       await Tasks.update(props.environment_id, props.id, params)
     }
   }
@@ -191,6 +156,7 @@ export default function NoteStructure(props) {
             style={{ color: "#FFFFFF", borderRadius: 15 }} 
             onClick={() => { 
               setIsContentMinimized(!isContentMinimized)
+              handleUpdates(title, !isContentMinimized)
             }} 
           />
         </div>
@@ -198,10 +164,22 @@ export default function NoteStructure(props) {
       </div>
       <div className="container-description" ref={contentRef}>
         {props.isTask && 
-          <TaskList id={props.id} items={props.items} unfocusEditable={unfocusEditable} mainRef={props.mainRef} environment_id={props.environment_id}/>
+          <TaskList 
+            id={props.id} 
+            items={props.items} 
+            unfocusEditable={unfocusEditable} 
+            mainRef={props.mainRef} 
+            environment_id={props.environment_id}
+          />
         }
         {!props.isTask &&
-          <Note id={props.id} description={props.description} unfocusEditable={unfocusEditable} mainRef={props.mainRef} environment_id={props.environment_id}/>
+          <Note 
+            id={props.id} 
+            description={props.description} 
+            unfocusEditable={unfocusEditable} 
+            mainRef={props.mainRef} 
+            environment_id={props.environment_id}
+          />
         }
       </div>
     </div>

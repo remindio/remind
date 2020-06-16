@@ -14,10 +14,20 @@ export default function TaskList(props) {
     setItems(response.data.task_list_items)
   }
 
+  async function handleCreateTaskItem() {
+    const response = await TaskItems.create(props.environment_id, props.id)
+    setItems([...items, response.data.message])
+  }
+
+  async function handleDeleteTaskItem(id) {
+    await TaskItems.delete(props.environment_id, props.id, id)
+    getItems()
+  }
+
   return (
     <>
-      { items.map(item =>
-        <TaskListItem 
+      {items.map(item =>
+        <TaskListItem
           key={item.id}
           id={item.id}
           description={item.description}
@@ -27,6 +37,8 @@ export default function TaskList(props) {
           unfocusEditable={props.unfocusEditable}
           environment_id={props.environment_id}
           getItems={getItems}
+          createTaskItem={handleCreateTaskItem}
+          deleteTaskItem={handleDeleteTaskItem}
         />
       )}
     </>
