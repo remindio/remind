@@ -1,0 +1,71 @@
+@import '../../utilities.scss';
+
+.container-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.container-item .left-container-item {
+  display: flex;
+  align-items: baseline;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+input[type='checkbox'] {
+  position: relative;
+  appearance: none;
+  outline: none;
+  padding: 5px;
+  border: 1px solid $second_color;
+  border-radius: 2px;
+  cursor: pointer;
+  &::before {
+    position: absolute;
+    content: '';
+    left: 3px;
+    bottom: 2px;
+    width: 3px;
+    height: 7px;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+  &:checked {
+    background-color: $second_color;
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+.container-item .left-container-item p {
+  margin-left: 0.3em;
+  width: 100%;
+}
+
+.container-item .left-container-item p:focus {
+  outline: none;
+}
+
+[contenteditable]:empty:before {
+  content: attr(placeholder);
+  display: block;
+  opacity: 0.5;
+}
+
+.container-item .delete-icon {
+  display: flex;
+  align-items: baseline;
+  opacity: 0;
+}
+
+.container-item:hover .delete-icon {
+  opacity: 80%;
+}
