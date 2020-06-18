@@ -8,17 +8,15 @@ import Environments from '../../components/Environments/'
 
 
 export default function Profile() {
-  const [currentContent, setCurrentContent] = useState(<Account/>)
-
+  const [currentContent, setCurrentContent] = useState(<Environments/>)
 
   function handleCurrentContent(component, event) {
     if (event.target.id === "") {
-      document.getElementById("styled").id = ""
-      event.target.id = "styled"
+      document.getElementById("styled-tabs").id = ""
+      event.target.id = "styled-tabs"
       setCurrentContent(component)
     }
   }
-  
 
   return (
     <div className="profile">
@@ -31,13 +29,11 @@ export default function Profile() {
       <div className="profile-container">
         <h1>Erick Johnson</h1>
         <div className="profile-options">
-          <h2 id="styled" onClick={(event) => handleCurrentContent(<Account/>, event)}>Account</h2>
-          <h2 id="" onClick={(event) => handleCurrentContent(<Environments/>, event)}>Environments</h2>
+          <h2 id="" onClick={(event) => handleCurrentContent(<Account/>, event)}>Account</h2>
+          <h2 id="styled-tabs" onClick={(event) => handleCurrentContent(<Environments/>, event)}>Environments</h2>
         </div>
       </div>
-      <div className="profile-info">
-        {currentContent}
-      </div>
+      {currentContent}
     </div>
   )
 }

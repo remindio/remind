@@ -1,0 +1,92 @@
+.account-container {
+  background-color: #EDEDED;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.account-container .account-inner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  margin: 30px auto 0 auto;
+  padding: 30px 0;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+}
+
+.account-container .account-inner-container .account-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-container .account-inner-container .account-content .account-items {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 40px;
+}
+
+.account-container .account-inner-container .account-content .account-items p {
+  font-size: 20px;
+  color: #666666;
+}
+
+.account-container .account-inner-container .account-content .account-items p + p {
+  margin-top: 30px;
+}
+
+.account-container .account-inner-container .account-content .account-items p + p + p {
+  margin-bottom: 35px;
+}
+
+.account-container .account-inner-container .account-content .account-values {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.account-container .account-inner-container .account-content .account-values p {
+  max-width: 100%;
+  font-size: 20px;
+  color: #666666;
+  overflow: hidden;
+}
+
+.account-container .account-inner-container .account-content .account-values p + p {
+  margin-top: 30px
+}
+
+.account-container .account-inner-container .account-content .account-values p + p + p {
+  margin-bottom: 35px;
+}
+
+.account-container .account-inner-container a {
+  margin-bottom: 20px;
+  color: #4280DE;
+}
+
+.account-container .account-inner-container button {
+  width: 150px;
+  padding: 10px 15px;
+  background-color: #F60C0C;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.account-container .account-inner-container button:hover {
+  filter: brightness(90%);
+}
