@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { Environments } from '../../services'
 import { RiSettings2Line } from 'react-icons/ri'
 import { BsChevronDoubleRight } from 'react-icons/bs'
@@ -105,7 +106,7 @@ export default function Navbar(props) {
         </div>
       </div>
       
-      <RiSettings2Line size={24} style={{ color: "#FFFFFF", cursor: "pointer" }} />
+      <Link to='/profile'><RiSettings2Line size={24} style={{ color: "#FFFFFF", cursor: "pointer" }} /></Link>
     </div>
   )
 }

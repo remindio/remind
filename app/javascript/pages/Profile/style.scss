@@ -1,0 +1,61 @@
+@import '../../utilities.scss';
+
+.profile {
+  background-color: #f8f9fc;
+  width: 100%;
+}
+
+.profile nav {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+  background-color: $primary_color;
+}
+
+.profile .profile-picture {
+  display: flex;
+  justify-content: center;
+  height: 200px;
+}
+
+.profile .img {
+  background-color: darkgray;
+  position: absolute;
+  top: 30px;
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+}
+
+.profile .profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile .profile-container h1 {
+  color: #303030;
+  margin-bottom: 24px;
+  font-size: 38px;
+}
+
+.profile .profile-container .profile-options {
+  display: flex;
+}
+
+.profile .profile-container .profile-options h2 {
+  font-weight: 400;
+  color: #666666;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.profile .profile-container .profile-options h2 + h2 {
+  margin-left: 58px;
+} 
+
+#styled {
+  border-bottom: 3px solid $primary_color;
+  color: $second_color;
+}

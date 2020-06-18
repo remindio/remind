@@ -5,7 +5,7 @@ import OptionMenu from '../../components/OptionMenu'
 import { Environments, Notes, Tasks } from '../../services'
 import './style.scss'
 
-export default function Home() {
+export default function Main() {
   const [currentEnvironmentID, setCurrentEnvironmentID] = useState(0)
   const [environmentList, setEnvironmentList] = useState([])
   const [optionMenu, setOptionMenu] = useState([])
