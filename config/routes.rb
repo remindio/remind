@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       end
 
       resources :environment, only: [:index, :create, :destroy, :update]
+      resources :user, only: [:index, :update]
     end
   end
 

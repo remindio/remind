@@ -35,10 +35,23 @@
   align-items: center;
 }
 
-.profile .profile-container h1 {
+.profile .profile-container .profile-name-container {
+  display: block;
+  max-width: 30%;
+  overflow: hidden;
+}
+
+.profile .profile-container .profile-name-container h1 {
   color: #303030;
   margin-bottom: 24px;
   font-size: 38px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.profile .profile-container .profile-name-container h1:focus {
+  overflow: unset;
 }
 
 .profile .profile-container .profile-options {

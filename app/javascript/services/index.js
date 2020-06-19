@@ -18,8 +18,6 @@ const Tasks = {
   create: (environmentId, params) => api.post(`${apiUrl}/environment/${environmentId}/task_list`, params),
   update: (environmentId, taskId, params) => api.put(`${apiUrl}/environment/${environmentId}/task_list/${taskId}`, params),
   delete: (environmentId, taskId) => api.delete(`${apiUrl}/environment/${environmentId}/task_list/${taskId}`)
-  
-
 }
 
 const TaskItems = {
@@ -29,4 +27,9 @@ const TaskItems = {
   delete: (environmentId, taskId, itemId) => api.delete(`${apiUrl}/environment/${environmentId}/task_list/${taskId}/task_list_item/${itemId}`),
 }  
 
-export { Environments, Notes, Tasks, TaskItems }
+const User = {
+  show: () => api.get(`${apiUrl}/user`),
+  update: (userId, params) => api.put(`${apiUrl}/user/${userId}`, params)
+}
+
+export { Environments, Notes, Tasks, TaskItems, User }

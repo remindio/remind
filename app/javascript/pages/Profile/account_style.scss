@@ -51,8 +51,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-right: 40px;
-  overflow: hidden;
-  white-space: nowrap;
+  overflow: hidden; 
 }
 
 .account-container .account-inner-container .account-content .account-values p {
@@ -60,6 +59,12 @@
   font-size: 20px;
   color: #666666;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.account-container .account-inner-container .account-content .account-values p:focus {
+  overflow: unset;
 }
 
 .account-container .account-inner-container .account-content .account-values p + p {
