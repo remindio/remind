@@ -62,6 +62,12 @@
   z-index: 2;
 }
 
+[contenteditable]:empty:before {
+  content: attr(placeholder);
+  display: block;
+  opacity: 0.5;
+}
+
 .navbar .navbar-container .container-environments:hover ul li {
   list-style: none;
   background-color: $primary_color;

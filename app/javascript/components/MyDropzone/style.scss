@@ -1,0 +1,79 @@
+.dropzone {
+  background-color: #c1c9cc;
+  position: absolute;
+  top: 30px;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: 0;
+}
+
+.dropzone img {
+  width: 150px;
+  height: 150px;
+  border-radius: 100%; 
+  object-fit: cover;
+}
+
+.dropzone #standard-photo {
+  width: 100px;
+  height: 100px;
+  color: #f5f7f9;
+  margin: auto;
+}
+
+.dropzone:hover #standard-photo {
+  opacity: 0.5;
+}
+
+.dropzone div {
+  background-color: #303030;
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropzone div p {
+  width: calc(100% - 60px);
+  height: calc(100% - 60px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  text-align: center;
+  color: #ffffff;
+
+  opacity: 0;
+}
+
+.dropzone div p svg {
+  color: #FFFFFF;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 8px;
+  opacity: 0;
+}
+
+.dropzone:hover div {
+  opacity: 0.6;
+}
+
+.dropzone:hover div p {
+  opacity: 1;
+}
+
+.dropzone:hover div p svg {
+  opacity: 1;
+}

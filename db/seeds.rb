@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-erick_johnson = User.create(name: "Erick Johnson", email: "erick@johnson.com", password: "123456", company_name: "Facebook", occupation: "Full Stack Rails Developer", profile_url: "erickjohnson.com.br")
+erick_johnson = User.create(name: "Erick Johnson", email: "erick@johnson.com", password: "123456", company_name: "Facebook", occupation: "Full Stack Rails Developer")
 calculo = Environment.create(name: "Calculo IV", created_by: 1, created_by_name: "Erick Johnson")
 modelagem = Environment.create(name: "Modelagem e Simulação", created_by: 1, created_by_name: "Erick Johnson")
 mac0323 = Environment.create(name: "MAC0323", created_by: 1, created_by_name: "Erick Johnson")
@@ -14,11 +14,11 @@ user_environment1 = UserEnvironment.create(user_id: 1, environment_id: 1)
 user_environment2 = UserEnvironment.create(user_id: 1, environment_id: 2)
 user_environment3 = UserEnvironment.create(user_id: 1, environment_id: 3)
 
-daniel_johnson = User.create(name: "Daniel Johnson", email: "daniel@johnson.com", password: "123456", company_name: "Google", occupation: "Full Stack Rails Developer", profile_url: "danieljohnson.com.br")
+daniel_johnson = User.create(name: "Daniel Johnson", email: "daniel@johnson.com", password: "123456", company_name: "Google", occupation: "Full Stack Rails Developer")
 user_environment4 = UserEnvironment.create(user_id: 2, environment_id: 1)
 user_environment5 = UserEnvironment.create(user_id: 2, environment_id: 2)
 
-gubi_johnson = User.create(name: "Gubi Johnson", email: "gubi@johnson.com", password: "123456", company_name: "USP", occupation: "Teacher", profile_url: "gubi.com.br")
+gubi_johnson = User.create(name: "Gubi Johnson", email: "gubi@johnson.com", password: "123456", company_name: "USP", occupation: "Teacher")
 user_environment6 = UserEnvironment.create(user_id: 3, environment_id: 1)
 
 note1 = Note.create(title: "Séries", description: "Séries de taylor é muito chato", environment_id: 1, positionX: 1201, positionY: 92)

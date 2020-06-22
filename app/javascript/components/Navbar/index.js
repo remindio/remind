@@ -80,7 +80,8 @@ export default function Navbar(props) {
           <h1
             ref={environmentNameRef}
             spellCheck={false}
-            contentEditable={true} 
+            contentEditable={true}
+            placeholder="Environment name"
             suppressContentEditableWarning={true} 
             onBlur={handleNameUpdate}
             onFocus={unfocusEditable}

@@ -63,12 +63,8 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
-  overflow: hidden;
-  padding-bottom: 20px;
-}
-
-.environments-container .environments-inner-container .environments-content .content-users:hover {
   overflow-x: scroll;
+  padding-bottom: 20px;
 }
 
 ::-webkit-scrollbar {

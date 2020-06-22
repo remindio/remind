@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  respond_to :json
   before_action :configure_sign_up_params, only: [:create]
-  before_action :configure_account_update_params, only: [:update]
+  # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   def new
@@ -40,22 +39,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+    @user = User.find_by_email(user_params[:email])
 
-    resource_updated = update_resource(resource, account_update_params)
-    yield resource if block_given?
-    if resource_updated
-      set_flash_message_for_update(resource, prev_unconfirmed_email)
+    p "AQUI O CARINHA BICHO: ", @user
+
+    if @user.update(user_params)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-
-      respond_with resource, location: after_update_path_for(resource)
-
+      render_response("success", "OK")
     else
-      clean_up_passwords resource
-      set_minimum_password_length
-      respond_with resource
+      render_response("Error", "Try again")
     end
+  end
+
+  def user_params
+    params.permit(:name, :email, :avatar, :occupation, :company_name)
   end
 
   # DELETE /resource
@@ -81,7 +78,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:attribute, :name, :email, :company_name, :occupation, :profile_url, :password, :password_confirmation, :current_password])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:attribute, :name, :email, :company_name, :occupation, :avatar, :password, :password_confirmation, :current_password])
   end
 
   # The path used after sign up.

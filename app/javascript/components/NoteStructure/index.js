@@ -134,12 +134,13 @@ export default function NoteStructure(props) {
             ref={titleRef}
             id="note-title"
             spellCheck={false}
-            contentEditable={true} 
+            contentEditable={true}
+            placeholder={props.isTask ? "Task title" : "Note title"}
             suppressContentEditableWarning={true} 
             onBlur={handleTitleUpdate}
             onFocus={() => unfocusEditable(titleRef)}
             onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
-            >{title? title : 'Note title'}
+            >{title}
           </h1>
         </div>
 

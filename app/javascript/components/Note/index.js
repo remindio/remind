@@ -25,12 +25,13 @@ export default function Note(props) {
       id="note-description"
       ref={descriptionRef}
       spellCheck={false}
-      contentEditable={true} 
+      contentEditable={true}
+      placeholder="Description"
       suppressContentEditableWarning={true} 
       onBlur={handleDescriptionUpdate}
       onFocus={() => props.unfocusEditable(descriptionRef)}
       onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}>
-      {description? description : 'Note description'}
+      {description}
     </p>
   )
 }

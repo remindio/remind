@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BsChevronDoubleLeft } from 'react-icons/bs'
+import MyDropzone from '../../components/MyDropzone'
 import './style.scss'
 import './account_style.scss'
 import Environments from '../../components/Environments/'
@@ -10,8 +11,9 @@ import { User } from '../../services/'
 
 export default function Profile() {
   const [id, setId] = useState(0)
+  const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [name, setName] = useState('')
-  const [profileUrl, setProfileUrl] = useState('')
   const [email, setEmail] = useState('')
   const [occupation, setOccupation] = useState('')
   const [company, setCompany] = useState('')
@@ -21,11 +23,13 @@ export default function Profile() {
     async function loadProfileContent() {
       const response = await User.show()
       setName(response.data.name)
-      setProfileUrl(response.data.profile_url)
       setEmail(response.data.email)
       setOccupation(response.data.occupation)
       setCompany(response.data.company)
       setId(response.data.id)
+
+      if (response.data.avatar)
+        setImageUrl(`http://localhost:3000${response.data.avatar}`);
       console.log(response.data.id)
     }
 
@@ -33,13 +37,27 @@ export default function Profile() {
   }, [])
 
   async function handleProfileUpdate(params) {
-    console.log(id)
-    await User.update(id, params)
-    setName(params.user.name)
-    setProfileUrl(params.user.profile_url)
-    setEmail(params.user.email)
-    setOccupation(params.user.occupation)
-    setCompany(params.user.company_name)
+    const formData = new FormData()
+    formData.append('id', id)
+    formData.append('name', params.name)
+    formData.append('email', params.email)
+    formData.append('occupation', params.occupation)
+    formData.append('company_name', params.company_name)
+
+    if (image !== '')
+      formData.append('avatar', image)
+
+    const response = await User.update(id, formData)
+
+    if (response.data.status === 'success')
+      alert('funcionou!')
+    else
+      alert('deu errado!!!')
+
+    setName(params.name)
+    setEmail(params.email)
+    setOccupation(params.occupation)
+    setCompany(params.company_name)
   }
 
 
@@ -57,7 +75,7 @@ export default function Profile() {
         <Link to="/"><BsChevronDoubleLeft size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginLeft: "32px"  }}/></Link>
       </nav>
       <div className="profile-picture">
-        <div className="img"></div>
+        <MyDropzone imageUrl={imageUrl} onFileUploaded={setImage} />
       </div>
       <div className="profile-container">
         <div className="profile-name-container">
@@ -65,7 +83,7 @@ export default function Profile() {
             spellCheck={false}
             contentEditable={true} 
             suppressContentEditableWarning={true} 
-            onBlur={(event) => handleProfileUpdate({ user: { name: event.target.textContent, profile_url: profileUrl, email, occupation, company_name: company } })}
+            onBlur={(event) => handleProfileUpdate({ name: event.target.textContent, email, occupation, company_name: company })}
             onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
           >{name}</h1>
         </div>
@@ -88,7 +106,7 @@ export default function Profile() {
                   spellCheck={false} 
                   suppressContentEditableWarning={true} 
                   contentEditable={true}
-                  onBlur={(event) => handleProfileUpdate({ user: { name, profile_url: profileUrl, email: event.target.textContent, occupation, company_name: company } })}
+                  onBlur={(event) => handleProfileUpdate({ name, email: event.target.textContent, occupation, company_name: company })}
                   onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
                   >{email}
                 </p>
@@ -96,7 +114,7 @@ export default function Profile() {
                   spellCheck={false} 
                   suppressContentEditableWarning={true} 
                   contentEditable={true}
-                  onBlur={(event) => handleProfileUpdate({ user: { name, profile_url: profileUrl, email, occupation, company_name: event.target.textContent } })}
+                  onBlur={(event) => handleProfileUpdate({ name, email, occupation, company_name: event.target.textContent })}
                   onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
                   >{company}
                 </p>
@@ -104,7 +122,7 @@ export default function Profile() {
                   spellCheck={false} 
                   suppressContentEditableWarning={true} 
                   contentEditable={true}
-                  onBlur={(event) => handleProfileUpdate({ user: { name, profile_url: profileUrl, email, occupation: event.target.textContent, company_name: company } })}
+                  onBlur={(event) => handleProfileUpdate({ name, email, occupation: event.target.textContent, company_name: company })}
                   onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
                   >{occupation}
                 </p>
