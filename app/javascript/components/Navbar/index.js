@@ -94,7 +94,11 @@ export default function Navbar(props) {
                 return null
 
               return (
-                <li key={environment.id} onClick={handleSelectEnvironment} id={environment.id}>
+                <li  
+                  placeholder="Environment name"
+                  key={environment.id} 
+                  onClick={handleSelectEnvironment} 
+                  id={environment.id}>
                   {environment.name}
                 </li>
               )

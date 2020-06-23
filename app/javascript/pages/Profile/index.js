@@ -30,7 +30,6 @@ export default function Profile() {
 
       if (response.data.avatar)
         setImageUrl(`http://localhost:3000${response.data.avatar}`);
-      console.log(response.data.id)
     }
 
     loadProfileContent()
@@ -48,11 +47,6 @@ export default function Profile() {
       formData.append('avatar', image)
 
     const response = await User.update(id, formData)
-
-    if (response.data.status === 'success')
-      alert('funcionou!')
-    else
-      alert('deu errado!!!')
 
     setName(params.name)
     setEmail(params.email)
@@ -103,6 +97,7 @@ export default function Profile() {
               </div>
               <div className="account-values">
                 <p 
+                  placeholder="Email"
                   spellCheck={false} 
                   suppressContentEditableWarning={true} 
                   contentEditable={true}
@@ -111,6 +106,7 @@ export default function Profile() {
                   >{email}
                 </p>
                 <p 
+                  placeholder="Company"
                   spellCheck={false} 
                   suppressContentEditableWarning={true} 
                   contentEditable={true}
@@ -119,6 +115,7 @@ export default function Profile() {
                   >{company}
                 </p>
                 <p 
+                  placeholder="Occupation"
                   spellCheck={false} 
                   suppressContentEditableWarning={true} 
                   contentEditable={true}
@@ -134,7 +131,7 @@ export default function Profile() {
         </div>
       }
       { currentContent === 'environments' && 
-        <Environments/>
+        <Environments userId={id}/>
       }
     </div>
   )

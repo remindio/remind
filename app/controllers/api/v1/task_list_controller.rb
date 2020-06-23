@@ -10,7 +10,7 @@ class Api::V1::TaskListController < ApplicationController
       )
 
       if @task_list.save
-        @task_list_item = TaskListItem.create(task_list_id: @task_list.id, description: "Task 1")
+        @task_list_item = TaskListItem.create(task_list_id: @task_list.id)
         
         task_list = {
           :id => @task_list.id,

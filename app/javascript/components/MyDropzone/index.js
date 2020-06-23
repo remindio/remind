@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone';
 import { FiUpload } from 'react-icons/fi';
-import { BsPerson, BsFillPersonFill } from 'react-icons/bs';
-import { IoIosPerson } from 'react-icons/io';
+import { BsFillPersonFill } from 'react-icons/bs';
+
 
 import './style.scss';
 

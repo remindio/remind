@@ -75,7 +75,11 @@ class Api::V1::EnvironmentController < ApplicationController
     end
 
     def load_users
-      @users = User.joins(:user_environments).where(:user_environments => { environment_id: params[:id] })
+      userList = User.joins(:user_environments).where(:user_environments => { environment_id: params[:id] })
+      @users = userList.map { |user|
+        url = user.avatar.attached? ? rails_blob_path(user.avatar, only_path: true) : ""
+        { id: user.id, name: user.name, avatar: url }
+      }
     end
 
     def environment_params

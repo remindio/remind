@@ -115,6 +115,7 @@ export default function NoteStructure(props) {
   }
 
   function handleMouseUpEvent(event) {
+    console.log('alo')
     const elementId = event.target.id
     switch (elementId) {
       case 'note-title':

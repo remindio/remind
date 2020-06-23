@@ -15,8 +15,4 @@ json.notes @notes.each do |note|
   json.minimized note.minimized?
 end
 
-json.users @users.each do |user|
-  json.id user.id
-  json.name user.name
-  json.email user.email
-end
+json.users @users
