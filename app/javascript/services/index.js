@@ -32,4 +32,9 @@ const User = {
   update: (userId, params) => api.put(`${apiUrl}/user/${userId}`, params)
 }
 
-export { Environments, Notes, Tasks, TaskItems, User }
+const UserEnvironment = {
+  create: (environmentId, params) => api.post(`${apiUrl}/environment/${environmentId}/user_environment`, params),
+  delete: (environmentId, userId) => api.delete(`${apiUrl}/environment/${environmentId}/user_environment/${userId}`)
+}
+
+export { Environments, Notes, Tasks, TaskItems, User, UserEnvironment }

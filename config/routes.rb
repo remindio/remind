@@ -18,7 +18,7 @@ Rails.application.routes.draw do
         resources :task_list, only: [:update, :destroy, :create] do 
           resources :task_list_item, only: [:index, :create, :update, :destroy]
         end
-        resources :user_environment, only: [:create]
+        resources :user_environment, only: [:create, :destroy]
         resources :note, only: [:update, :destroy, :create]
       end
 

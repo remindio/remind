@@ -117,10 +117,14 @@
   margin-top: 5px;
 }
 
-.environments-container .environments-inner-container .environments-content .content-users .users a {
+.environments-container .environments-inner-container .environments-content .content-users .users button {
   color: #74643F;
   font-size: 12px;
   margin-top: 5px;
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .environments-container .environments-inner-container .environments-content .content-users .users div {
@@ -153,7 +157,20 @@
   justify-content: flex-end;
 }
 
-.environments-container .environments-inner-container .environments-content .options button {
+.environments-container .environments-inner-container .environments-content .options .invite-button {
+  width: 100px;
+  padding: 10px 15px;
+  margin-top: 25px;
+  background-color: transparent;
+  color: #4280de;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.environments-container .environments-inner-container .environments-content .options .delete-button {
   width: 100px;
   padding: 10px 15px;
   margin-top: 25px;

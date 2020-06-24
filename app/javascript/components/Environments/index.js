@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Environments as Environment } from '../../services/index'
+import { Environments as Environment, UserEnvironment } from '../../services/index'
 import { BsFillPersonFill } from 'react-icons/bs';
 import './style.scss'
 
@@ -10,11 +10,6 @@ export default function Environments(props) {
   const [owner, setOwner] = useState([])
 
   useEffect(() => {
-    async function loadEnvironments() {
-      const response = await Environment.index()
-      setEnvironmentList(response.data.environments)
-      setSelectedEnvironmentId(response.data.environments[0].id)
-    }
     loadEnvironments()
   }, [])
 
@@ -31,6 +26,50 @@ export default function Environments(props) {
     }
     fetchEnvironmentContent()
   }, [selectedEnvironmentId])
+
+  async function loadEnvironments(index = 0) {
+    const response = await Environment.index()
+    setEnvironmentList(response.data.environments)
+    setSelectedEnvironmentId(response.data.environments[index].id)
+  }
+
+  async function handleDeleteEnvironment() {
+    const confirmation = confirm('Are you sure?')
+
+    if (confirmation) {
+      const index = environmentList.findIndex(environment => environment.id == selectedEnvironmentId)
+      await Environment.delete(selectedEnvironmentId)
+
+      if (index > 0)
+        loadEnvironments(index - 1)
+      else
+        loadEnvironments() 
+    }
+  }
+
+  async function inviteUser() {
+    const userEmail = prompt('Write an email: ')
+    const params = {
+      user: {
+        email: userEmail
+      }
+    }
+
+    // send an email in the future
+    const response = await UserEnvironment.create(selectedEnvironmentId, params)
+
+    if (response.data.status === "success") {
+      setUsers([...users, response.data.message])
+    }
+    else {
+      alert(response.data.message)
+    }
+  }
+
+  async function removeUser(userId) {
+    await UserEnvironment.delete(selectedEnvironmentId, userId)
+    setUsers(users.filter(user => user.id != userId))
+  }
 
   return(
     <div className="environments-container">
@@ -65,13 +104,22 @@ export default function Environments(props) {
                     }
                   </div>
                   <p>{user.name}</p>
-                  <a href="#">Remove</a>
+                  {props.userId == owner[1] && <button onClick={() => removeUser(user.id)}>Remove</button>}
                 </div>
               )}
             )}
           </div>
           <div className="options">
-            <button>Delete</button>
+            <button 
+              className="invite-button"
+              onClick={inviteUser}>
+                Invite
+            </button>
+            <button 
+              className="delete-button" 
+              onClick={handleDeleteEnvironment}>
+                {props.userId == owner[1] ? "Delete" : "Leave"}
+            </button>
           </div>
         </div>
       </div>
