@@ -97,10 +97,10 @@ export default function Environments(props) {
               if (user.id == props.userId) 
                 return null
               return (
-                <div key={user.id}className="users">
+                <div key={user.id} className="users">
                   <div>
                     { user.avatar ? 
-                      <img src={`http://localhost:3000${user.avatar}`} alt=""/> : <BsFillPersonFill id="user-photo" /> 
+                      <img src={`${user.avatar}`} alt=""/> : <BsFillPersonFill id="user-photo" /> 
                     }
                   </div>
                   <p>{user.name}</p>

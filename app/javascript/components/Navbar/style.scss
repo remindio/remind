@@ -3,32 +3,134 @@
 .navbar {
   height: 64px;
   width: 100%;
-  padding: 16px;
   background-color: $primary_color;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.navbar .sidebar-container {
+  width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $second_color;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.navbar .sidebar-container .sidebar-users {
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 16px;
+  overflow-x: scroll;
+}
+
+.navbar .sidebar-container .sidebar-users:hover {
+  &::-webkit-scrollbar-thumb {
+    visibility: visible;
+  }
+}
+
+.navbar .sidebar-container .sidebar-users {
+ &::-webkit-scrollbar {
+    height: 3px;
+  }
+}
+
+/* Track */
+.navbar .sidebar-container .sidebar-users {
+  &::-webkit-scrollbar-track {
+    background: $second_color;
+    border-radius: 10px;
+  }
+}
+
+/* Handle */
+.navbar .sidebar-container .sidebar-users {
+  &::-webkit-scrollbar-thumb {
+    background: #F8F9FC;
+    border-radius: 10px;
+    height: 3px;
+    visibility: hidden;
+  }
+}
+
+/* Handle on hover */
+.navbar .sidebar-container .sidebar-users {
+  &::-webkit-scrollbar-thumb:hover {
+    background: $primary_color;
+  }
+}
+
+.navbar .sidebar-container .sidebar-users .user {
+  margin-right: 8px;
+}
+
+.navbar .sidebar-container .sidebar-users .user div {
+  background-color: #c1c9cc;
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .sidebar-container .sidebar-users .user div p {
+  font-size: 18px;
+  color: #fff;
+  white-space: nowrap;
+  margin-left: 8px;
+  cursor: default;
+}
+
+.navbar .sidebar-container .sidebar-users .user div img {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+}
+
+.navbar .sidebar-container .sidebar-users .user  div #user-photo {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  margin: auto;
+  border-radius: 100%;
+}
+
+.navbar .sidebar-container .sidebar-icon {
+  width: 10%;
+  margin: 0 16px;
+}
+
+.navbar .navbar-container {
+  width: 100%;
+  display: flex;
+  padding: 16px;
   justify-content: space-between;
   align-items: center;
 }
 
-.navbar .navbar-container {
+.navbar .navbar-container .navbar-container-left {
   display: flex;
   align-items: center;
-  margin-left: 16px;
 }
 
-.navbar .navbar-container .container-environments {
+.navbar .navbar-container .navbar-container-left .container-environments {
   width: 500px;
   background-color: $primary_color;
   border: 1px solid #ffffff;
   border-radius: 5px;
-  margin-left: 25px;
   overflow: hidden;
   // cursor: pointer;
 }
 
-.navbar .navbar-container .container-environments h1 {
+.navbar .navbar-container .navbar-container-left .container-environments h1 {
   display: block;
   // background-color: $primary_color;
   // border: 1px solid #fff;
@@ -44,19 +146,19 @@
   margin: 12px;
 }
 
-.navbar .navbar-container .container-environments h1:focus {
+.navbar .navbar-container .navbar-container-left .container-environments h1:focus {
   outline: none;
   overflow: unset;
   white-space: nowrap;
 }
 
-.navbar .navbar-container .container-environments ul {
+.navbar .navbar-container .navbar-container-left .container-environments ul {
   width: 500px;
   display: none;
   cursor: pointer;
 }
 
-.navbar .navbar-container .container-environments:hover ul {
+.navbar .navbar-container .navbar-container-left .container-environments:hover ul {
   display: inline;
   position: absolute;
   z-index: 2;
@@ -74,7 +176,7 @@ li:empty:before {
   opacity: 0.5;
 }
 
-.navbar .navbar-container .container-environments:hover ul li {
+.navbar .navbar-container .navbar-container-left .container-environments:hover ul li {
   list-style: none;
   background-color: $primary_color;
   border: 1px #ffffff;
@@ -89,7 +191,7 @@ li:empty:before {
   white-space: nowrap;
 }
 
-.navbar .navbar-container .container-environments:hover ul .new-environment {
+.navbar .navbar-container.navbar-container-left .container-environments:hover ul .new-environment {
   display: flex;
   align-items: center;
   border-style: dashed solid solid solid;

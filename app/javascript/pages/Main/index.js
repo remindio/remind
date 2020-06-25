@@ -11,6 +11,7 @@ export default function Main() {
   const [optionMenu, setOptionMenu] = useState([])
   const [notes, setNotes] = useState([])
   const [tasks, setTasks] = useState([])
+  const [users, setUsers] = useState([])
   const [positionX, setPositionX] = useState(0)
   const [positionY, setPositionY] = useState(0)
   const [isMenuShowing, setIsMenuShowing] = useState(false)
@@ -68,6 +69,7 @@ export default function Main() {
     const response = await Environments.show(id)
     setNotes(response.data.notes)
     setTasks(response.data.task_lists)
+    setUsers(response.data.users)
   }
 
   async function createNote() {
@@ -138,6 +140,7 @@ export default function Main() {
     <>
       <Navbar
         unfocusTarget={unfocusTarget}
+        users={users}
         environmentList={environmentList} 
         fetchEnvironmentContent={fetchEnvironmentContent}
         mainRef={contentRef}

@@ -29,7 +29,7 @@ export default function Profile() {
       setId(response.data.id)
 
       if (response.data.avatar)
-        setImageUrl(`http://localhost:3000${response.data.avatar}`);
+        setImageUrl(`${response.data.avatar}`);
     }
 
     loadProfileContent()
