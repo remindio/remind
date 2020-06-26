@@ -29,7 +29,8 @@ const TaskItems = {
 
 const User = {
   show: () => api.get(`${apiUrl}/user`),
-  update: (userId, params) => api.put(`${apiUrl}/user/${userId}`, params)
+  update: (userId, params) => api.put(`${apiUrl}/user/${userId}`, params),
+  delete: () => api.delete('users')
 }
 
 const UserEnvironment = {

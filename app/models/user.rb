@@ -7,5 +7,5 @@ class User < ApplicationRecord
   has_one_attached :avatar
 
   has_many :environments, through: :user_environments
-  has_many :user_environments
+  has_many :user_environments, :dependent => :delete_all
 end

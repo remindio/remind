@@ -63,6 +63,15 @@ export default function Profile() {
     }
   }
 
+  async function handleDeleteAccount() {
+    const confirmation = confirm('Are you sure?')
+
+    if (confirmation) {
+      await User.delete()
+      window.location.href = '/'
+    }
+  }
+
   return (
     <div className="profile">
       <nav>
@@ -125,8 +134,8 @@ export default function Profile() {
                 </p>
               </div>
             </div>
-            <a href="#">Change password</a>
-            <button>Delete account</button>
+            <a href="">Change password</a>
+            <button onClick={handleDeleteAccount}>Delete account</button>
           </div>
         </div>
       }
