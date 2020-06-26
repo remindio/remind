@@ -55,6 +55,6 @@ class Api::V1::NoteController < ApplicationController
 
   private
     def note_params
-      params.require(:note).permit(:title, :description, :positionX, :positionY, :minimized?)
+      params.require(:note).permit(:title, :description, :positionX, :positionY, :width, :height, :minimized?)
     end
 end

@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
     t.string "description", default: "", null: false
     t.integer "positionX", default: 0, null: false
     t.integer "positionY", default: 65, null: false
+    t.integer "width", default: 0, null: false
+    t.integer "height", default: 0, null: false
     t.boolean "minimized?", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -65,7 +67,9 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
   create_table "task_lists", force: :cascade do |t|
     t.string "title", default: "Task list title", null: false
     t.integer "positionX", default: 0, null: false
-    t.integer "positionY", default: 65, null: false
+    t.integer "positionY", default: 0, null: false
+    t.integer "width", default: 0, null: false
+    t.integer "height", default: 0, null: false
     t.boolean "minimized?", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

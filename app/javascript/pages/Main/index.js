@@ -159,6 +159,8 @@ export default function Main() {
               environment_id={currentEnvironmentID}
               positionX={note.positionX} 
               positionY={note.positionY}
+              width={note.width}
+              height={note.height}
               minimized={note.minimized}
               fetchEnvironmentContent={fetchEnvironmentContent}
             />
@@ -175,6 +177,8 @@ export default function Main() {
               environment_id={currentEnvironmentID}
               positionX={task.positionX} 
               positionY={task.positionY}
+              width={task.width}
+              height={task.height}
               minimized={task.minimized}
               fetchEnvironmentContent={fetchEnvironmentContent}
             />

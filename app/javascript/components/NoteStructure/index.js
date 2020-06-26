@@ -8,8 +8,10 @@ import './style.scss'
 
 export default function NoteStructure(props) {
   const [title, setTitle] = useState(props.title)
-  const [positionX, setPositionX] = useState(window.innerWidth * props.positionX/1920)
-  const [positionY, setPositionY] = useState(window.innerHeight * props.positionY/942)
+  const [width, setWidth] = useState(props.width)
+  const [height, setHeight] = useState(props.height)
+  const [positionX, setPositionX] = useState(props.positionX)
+  const [positionY, setPositionY] = useState(props.positionY)
   const [isContentMinimized, setIsContentMinimized] = useState(props.minimized)
   const noteRef = useRef(null)
   const contentRef = useRef(null)
@@ -21,11 +23,13 @@ export default function NoteStructure(props) {
       contentRef.current.style.display = "none"
       noteRef.current.style.backgroundColor = "transparent"
       noteRef.current.style.zIndex = 0
+      noteRef.current.style.resize = "none"
     }
     else {
       contentRef.current.style.display = "block"
       noteRef.current.style.backgroundColor = "#FFFFFF"
       noteRef.current.style.zIndex = 1
+      noteRef.current.style.resize = "both"
     }
   }, [isContentMinimized])
 
@@ -58,23 +62,25 @@ export default function NoteStructure(props) {
     document.onmousemove = null
     if (event.target.id === 'trash-button' || event.target.id === 'minimize-button')
       return
-    handleUpdates(title, isContentMinimized)
+    handleUpdates(title, width, height, isContentMinimized)
   }
 
   async function handleTitleUpdate(event) {
     const newTitle = event.target.textContent
     setTitle(newTitle)
-    handleUpdates(newTitle, isContentMinimized)
+    handleUpdates(newTitle, width, height, isContentMinimized)
     props.mainRef.current.onclick = null
   }
 
-  async function handleUpdates(newTitle, isContentMinimized) {
+  async function handleUpdates(newTitle, newWidth, newHeight, isContentMinimized) {
     if (!props.isTask) {
       const params = {
         note: {
           title: newTitle,
           positionX: positionX,
-          positionY: positionY, 
+          positionY: positionY,
+          width: newWidth,
+          height: newHeight,
           "minimized?": isContentMinimized
         }
       }
@@ -87,6 +93,8 @@ export default function NoteStructure(props) {
           title: newTitle,
           positionX: positionX,
           positionY: positionY,
+          width: newWidth,
+          height: newHeight,
           "minimized?": isContentMinimized 
         }
       }
@@ -115,6 +123,7 @@ export default function NoteStructure(props) {
   }
 
   function handleMouseUpEvent(event) {
+    event.stopPropagation()
     console.log('alo')
     const elementId = event.target.id
     switch (elementId) {
@@ -126,44 +135,55 @@ export default function NoteStructure(props) {
         handleNoteSelection(event)
     }
   }
+
+  function handleNoteSize() {
+    const newWidth = noteRef.current.offsetWidth
+    const newHeight = noteRef.current.offsetHeight
+    setWidth(newWidth)
+    setHeight(newHeight)
+    handleUpdates(title, newWidth, newHeight, isContentMinimized)
+  }
   
   return (
-    <div style={{ top: positionY, left: positionX }} ref={noteRef} className="note">
-      <div onMouseDown={handleMouseDownEvent} onMouseUp={handleMouseUpEvent} className="navbar-note" id="navbar">
-        <div className="note-title">
-          <h1
-            ref={titleRef}
-            id="note-title"
-            spellCheck={false}
-            contentEditable={true}
-            placeholder={props.isTask ? "Task title" : "Note title"}
-            suppressContentEditableWarning={true} 
-            onBlur={handleTitleUpdate}
-            onFocus={() => unfocusEditable(titleRef)}
-            onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
-            >{title}
-          </h1>
-        </div>
+    <div style={{ top: positionY, left: positionX, width: width, height: height }} ref={noteRef} onMouseUp={handleNoteSize} className="note">
+      <div>
+        <div onMouseDown={handleMouseDownEvent} onMouseUp={handleMouseUpEvent} className="navbar-note" id="navbar">
+          <div className="note-title">
+            <h1
+              ref={titleRef}
+              id="note-title"
+              spellCheck={false}
+              contentEditable={true}
+              placeholder={props.isTask ? "Task title" : "Note title"}
+              suppressContentEditableWarning={true} 
+              onBlur={handleTitleUpdate}
+              onFocus={() => unfocusEditable(titleRef)}
+              onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
+              >{title}
+            </h1>
+          </div>
 
-        <div className="container-icons">
-          <BsTrash
-            id="trash-button"
-            size={20}
-            style={{ color: "#FFFFFF", marginRight: 2 }} 
-            onClick={deleteNote}
-          />
-          <AiOutlineMinusSquare 
-            id="minimize-button"
-            size={24} 
-            style={{ color: "#FFFFFF", borderRadius: 15 }} 
-            onClick={() => { 
-              setIsContentMinimized(!isContentMinimized)
-              handleUpdates(title, !isContentMinimized)
-            }} 
-          />
+          <div className="container-icons">
+            <BsTrash
+              id="trash-button"
+              size={20}
+              style={{ color: "#FFFFFF", marginRight: 2 }} 
+              onClick={deleteNote}
+            />
+            <AiOutlineMinusSquare 
+              id="minimize-button"
+              size={24} 
+              style={{ color: "#FFFFFF", borderRadius: 15 }} 
+              onClick={() => { 
+                setIsContentMinimized(!isContentMinimized)
+                handleUpdates(title, width, height, !isContentMinimized)
+              }} 
+            />
+          </div>
+          
         </div>
-        
       </div>
+      
       <div className="container-description" ref={contentRef}>
         {props.isTask && 
           <TaskList 
