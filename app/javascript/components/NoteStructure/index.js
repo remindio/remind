@@ -54,12 +54,14 @@ export default function NoteStructure(props) {
   function setNotePosition(event) {
     offsetY = event.clientY - noteRef.current.getBoundingClientRect().top
     offsetX = event.clientX - noteRef.current.getBoundingClientRect().left
+    noteRef.current.style.zIndex = 2
     document.onmousemove = movingNote
   }
 
   function handleNoteSelection(event) {
     document.onmouseup = null
     document.onmousemove = null
+    noteRef.current.style.zIndex = 1
     if (event.target.id === 'trash-button' || event.target.id === 'minimize-button')
       return
     handleUpdates(title, width, height, isContentMinimized)
@@ -103,35 +105,29 @@ export default function NoteStructure(props) {
     }
   }
 
-  function unfocusEditable(ref) {
-    props.mainRef.current.onclick = (event) => { 
-      if (ref.current.id != event.target.id)
-        props.unfocusTarget(ref) 
-    }
-  }
-
   function handleMouseDownEvent(event) {
     const elementId = event.target.id
     switch (elementId) {
-      case 'note-title':
       case 'trash-button':
       case 'minimize-button':
         return
       default:
+        if (document.activeElement === titleRef.current)
+          return
         setNotePosition(event)
     }
   }
 
   function handleMouseUpEvent(event) {
     event.stopPropagation()
-    console.log('alo')
     const elementId = event.target.id
     switch (elementId) {
-      case 'note-title':
       case 'trash-button':
       case 'minimize-button':
         return
       default:
+        if (document.activeElement === titleRef.current)
+          return
         handleNoteSelection(event)
     }
   }
@@ -143,6 +139,25 @@ export default function NoteStructure(props) {
     setHeight(newHeight)
     handleUpdates(title, newWidth, newHeight, isContentMinimized)
   }
+
+  function setEndOfContenteditable(contentEditableElement) {
+    let range, selection
+
+    if (document.createRange) {
+      range = document.createRange() // Create a range (a range is a like the selection but invisible)
+      range.selectNodeContents(contentEditableElement) // Select the entire contents of the element with the range
+      range.collapse(false) // collapse the range to the end point. false means collapse to end rather than the start
+      selection = window.getSelection() // get the selection object (allows you to change selection)
+      selection.removeAllRanges() // remove any selections already made
+      selection.addRange(range) // make the range you have just created the visible selection
+    }
+    else if (document.selection) { // IE 8 and lower
+      range = document.body.createTextRange() // Create a range (a range is a like the selection but invisible)
+      range.moveToElementText(contentEditableElement); // Select the entire contents of the element with the range
+      range.collapse(false); // collapse the range to the end point. false means collapse to end rather than the start
+      range.select(); // Select the range (make it the visible selection
+    }
+  }
   
   return (
     <div style={{ top: positionY, left: positionX, width: width, height: height }} ref={noteRef} onMouseUp={handleNoteSize} className="note">
@@ -153,11 +168,17 @@ export default function NoteStructure(props) {
               ref={titleRef}
               id="note-title"
               spellCheck={false}
-              contentEditable={true}
+              contentEditable={false}
+              onDoubleClick={(event) => { 
+                event.preventDefault()  
+                if (titleRef !== null) { 
+                  titleRef.current.contentEditable = true
+                  setEndOfContenteditable(titleRef.current)
+                }
+              }}
               placeholder={props.isTask ? "Task title" : "Note title"}
               suppressContentEditableWarning={true} 
-              onBlur={handleTitleUpdate}
-              onFocus={() => unfocusEditable(titleRef)}
+              onBlur={(event) => { handleTitleUpdate(event); titleRef.current.contentEditable = false }}
               onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
               >{title}
             </h1>
@@ -189,17 +210,14 @@ export default function NoteStructure(props) {
           <TaskList 
             id={props.id} 
             items={props.items} 
-            unfocusEditable={unfocusEditable} 
-            mainRef={props.mainRef} 
             environment_id={props.environment_id}
+            setEndOfContenteditable={setEndOfContenteditable}
           />
         }
         {!props.isTask &&
           <Note 
             id={props.id} 
             description={props.description} 
-            unfocusEditable={unfocusEditable} 
-            mainRef={props.mainRef} 
             environment_id={props.environment_id}
           />
         }

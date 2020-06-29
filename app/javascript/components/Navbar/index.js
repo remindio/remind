@@ -65,12 +65,6 @@ export default function Navbar(props) {
 
       setEnvironmentList(newEnvironmentList)
     }
-
-    props.mainRef.current.onclick = null
-  }
-
-  function unfocusEditable() {
-    props.mainRef.current.onclick = () => props.unfocusTarget(environmentNameRef)
   }
 
   return (
@@ -82,15 +76,13 @@ export default function Navbar(props) {
             return (
               <div key={user.id} id={user.id} className="user">
                 <div>
-                  { user.avatar ?
-                      <img title={user.name} src={`${user.avatar}`} alt={user.name}/> : <BsFillPersonFill title={user.name} id="user-photo" />                   
-                  }
-                  { props.users.length === 1 &&
+                  { !user.avatar && <BsFillPersonFill title={user.name} id="user-photo" />}
+                  { user.avatar && <img title={user.name} src={user.avatar} alt={user.name}/> }
+                </div>
+                { props.users.length === 1 &&
                     <p>{user.name}</p>
                   }
-                </div>
               </div>
-              
             )}
           )}
         </div>
@@ -112,7 +104,6 @@ export default function Navbar(props) {
               placeholder="Environment name"
               suppressContentEditableWarning={true} 
               onBlur={handleNameUpdate}
-              onFocus={unfocusEditable}
               onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
               >{selectedEnvironment ? selectedEnvironment.name : ''}
             </h1>

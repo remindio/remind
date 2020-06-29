@@ -16,8 +16,6 @@ export default function Note(props) {
     }
       
     await Notes.update(props.environment_id, props.id, params)
-
-    props.mainRef.current.onclick = null
   }
 
   return (
@@ -29,7 +27,6 @@ export default function Note(props) {
       placeholder="Description"
       suppressContentEditableWarning={true} 
       onBlur={handleDescriptionUpdate}
-      onFocus={() => props.unfocusEditable(descriptionRef)}
       onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}>
       {description}
     </p>

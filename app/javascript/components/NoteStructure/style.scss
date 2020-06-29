@@ -39,11 +39,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  user-select: none;
 }
 
 .navbar-note .note-title h1:focus {
   overflow: unset;
   white-space: nowrap;
+  user-select: initial;
 }
 
 .navbar-note .container-icons {

@@ -5,7 +5,6 @@ import './style.scss'
 
 export default function TaskList(props) {
   const [items, setItems] = useState([])
-  const descriptionRef = useRef(null)
 
   useEffect(() => {
     getItems()
@@ -27,22 +26,15 @@ export default function TaskList(props) {
     document.getElementById(newItem.id).focus()
   }
 
-  async function handleDeleteTaskItem(id) {
+  async function handleDeleteTaskItem(id, type) {
     const index = items.findIndex(item => item.id === id)
     await TaskItems.delete(props.environment_id, props.id, id)
     getItems()
 
-    if (index > 0) {
+    if (type !== 'icon' && index > 0) {
       const itemId = items[index - 1].id
-      const textLength = document.getElementById(itemId).innerHTML.length
-
-      document.getElementById(itemId).onfocus = (event) => {
-        event.target.selectionStart = textLength
-        event.target.selectionEnd = textLength
-      }
-      
-      document.getElementById(itemId).focus()
-      document.getElementById(itemId).onfocus = null
+      const element = document.getElementById(itemId)
+      props.setEndOfContenteditable(element)
     }
   }
 
@@ -68,16 +60,6 @@ export default function TaskList(props) {
     }
 
     await TaskItems.update(props.environment_id, props.id, id, params)
-
-    props.mainRef.current.onclick = null
-  }
-
-
-  function unfocusEditable(ref) {
-    props.mainRef.current.onclick = (event) => {
-      if (ref.current.id !== event.target.id)
-        props.unfocusTarget(ref)
-    }
   }
 
   function handleEditableKeyPress(event, id) {
@@ -86,26 +68,23 @@ export default function TaskList(props) {
       handleCreateTaskItem()
     }
     else if (event.keyCode === 8 && event.target.textContent === '') {
-      handleDeleteTaskItem(id)
+      handleDeleteTaskItem(id, 'backspace')
     }
   }
 
   return (
     <>
       {items.map(item =>
-        <div key={item.id} className="container-item">
-          <div className="left-container-item">
+        <div id="teste" key={item.id} className="container-item">
+          <div id="teste" className="left-container-item">
             <input type="checkbox" defaultChecked={item.task_completed} onClick={(event) => handleIsCompleted(event, item.id)} />
             <p
               id={item.id}
-              ref={descriptionRef}
               spellCheck={false}
               contentEditable={true}
-              value={item.description}
               placeholder="Task item"
               suppressContentEditableWarning={true} 
               onBlur={(event) => handleDescriptionUpdate(event, item.id)}
-              onFocus={() => unfocusEditable(descriptionRef)}
               onKeyDown={(event) => handleEditableKeyPress(event, item.id)}>
                 {item.description}
             </p>
@@ -114,7 +93,7 @@ export default function TaskList(props) {
             <TiDeleteOutline 
               size={18} 
               style={{ opacity: 0.5, cursor: 'pointer' }} 
-              onClick={() => handleDeleteTaskItem(item.id)} 
+              onClick={(event) => handleDeleteTaskItem(item.id, 'icon')} 
             />
           </div>
         </div>

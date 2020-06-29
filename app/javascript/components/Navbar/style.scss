@@ -70,6 +70,8 @@
 
 .navbar .sidebar-container .sidebar-users .user {
   margin-right: 8px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar .sidebar-container .sidebar-users .user div {
@@ -77,16 +79,9 @@
   width: 32px;
   height: 32px;
   border-radius: 100%;
+  margin-right: 8px;
   display: flex;
   align-items: center;
-}
-
-.navbar .sidebar-container .sidebar-users .user div p {
-  font-size: 18px;
-  color: #fff;
-  white-space: nowrap;
-  margin-left: 8px;
-  cursor: default;
 }
 
 .navbar .sidebar-container .sidebar-users .user div img {
@@ -101,6 +96,13 @@
   color: #fff;
   margin: auto;
   border-radius: 100%;
+}
+
+.navbar .sidebar-container .sidebar-users .user p {
+  font-size: 18px;
+  color: #fff;
+  white-space: nowrap;
+  cursor: default;
 }
 
 .navbar .sidebar-container .sidebar-icon {

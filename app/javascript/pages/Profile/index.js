@@ -35,6 +35,13 @@ export default function Profile() {
     loadProfileContent()
   }, [])
 
+  useEffect(() => {
+    if (image !== '')
+      handleProfileUpdate({ name, email, occupation, company_name: company, avatar: image })
+
+  }, [image])
+
+
   async function handleProfileUpdate(params) {
     const formData = new FormData()
     formData.append('id', id)
@@ -85,7 +92,8 @@ export default function Profile() {
           <h1
             spellCheck={false}
             contentEditable={true} 
-            suppressContentEditableWarning={true} 
+            suppressContentEditableWarning={true}
+            placeholder="Name"
             onBlur={(event) => handleProfileUpdate({ name: event.target.textContent, email, occupation, company_name: company })}
             onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
           >{name}</h1>

@@ -132,25 +132,17 @@ export default function Main() {
       setIsMenuShowing(false)
   }
 
-  function unfocusTarget(ref) {
-    ref.current.blur()
-  }
-
   return (
     <>
       <Navbar
-        unfocusTarget={unfocusTarget}
         users={users}
         environmentList={environmentList} 
         fetchEnvironmentContent={fetchEnvironmentContent}
-        mainRef={contentRef}
       />
-      <div className="content" onContextMenu={renderOptionMenu} /*onMouseDown={hideOptionMenu}*/ ref={contentRef}>
+      <div className="content" onContextMenu={renderOptionMenu} ref={contentRef}>
         <div>
           {notes.length > 0 && notes.map(note =>
             <NoteStructure
-              unfocusTarget={unfocusTarget}
-              mainRef={contentRef}
               key={note.id}
               id={note.id}
               title={note.title} 
@@ -167,12 +159,9 @@ export default function Main() {
           )}
           {tasks.length > 0 && tasks.map(task =>
             <NoteStructure
-              unfocusTarget={unfocusTarget}
-              mainRef={contentRef}
               key={task.id}
               id={task.id}
               title={task.title} 
-              // items={task.task_list_items}
               isTask={true}
               environment_id={currentEnvironmentID}
               positionX={task.positionX} 
