@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
   end
 
   create_table "environments", force: :cascade do |t|
-    t.string "name", default: "Environment name", null: false
+    t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "created_by"

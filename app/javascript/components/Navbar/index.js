@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Environments } from '../../services'
-import { RiSettings2Line } from 'react-icons/ri'
+import { Environments, User } from '../../services'
+import { FiLogOut } from 'react-icons/fi'
+import { RiSettings2Line, RiLogoutBoxRLine, RiLogoutCircleRLine } from 'react-icons/ri'
 import { BsChevronDoubleRight, BsChevronDoubleLeft, BsFillPersonFill } from 'react-icons/bs'
-import { IoMdAddCircleOutline } from 'react-icons/io'
+import { IoMdExit, IoMdAddCircleOutline } from 'react-icons/io'
 import './style.scss'
 
 export default function Navbar(props) {
@@ -65,6 +66,11 @@ export default function Navbar(props) {
 
       setEnvironmentList(newEnvironmentList)
     }
+  }
+
+  async function handleSignOut() {
+    await User.signOut()
+    window.location.href = 'users/sign_in'
   }
 
   return (
@@ -129,7 +135,10 @@ export default function Navbar(props) {
             </ul>
           </div>
         </div>
-        <Link to='/profile'><RiSettings2Line size={24} style={{ color: "#FFFFFF", cursor: "pointer" }} /></Link>
+        <div className="navbar-options">
+          <Link to='/profile'><RiSettings2Line size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginRight: 20 }} /></Link>
+          <FiLogOut onClick={handleSignOut} size={24} style={{ color: "#FFFFFF", cursor: "pointer" }} />
+        </div>
       </div>
     </nav>
   )

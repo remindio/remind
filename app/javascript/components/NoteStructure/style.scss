@@ -91,12 +91,6 @@
   visibility: hidden;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $primary_color;
-}
-
-
 [contenteditable]:empty:before {
   content: attr(placeholder);
   display: block;

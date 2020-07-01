@@ -12,6 +12,7 @@
   flex-direction: row;
   justify-content: center;
   width: 60%;
+  height: 45%;
   margin: 30px auto 0 auto;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -19,10 +20,33 @@
 
 .environments-container .environments-inner-container .environments-list {
   width: 30%;
+  height: 100%;
+  overflow-y: scroll;
+  direction: rtl;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
   background-color: #F5F5F5;
-  padding: 0 0 10px 10px;
+  padding: 0 0 0 10px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100px;
+  }
+}
+
+.environments-container .environments-inner-container .environments-list:hover {
+  &::-webkit-scrollbar-thumb {
+    visibility: visible;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100px;
+  }
 }
 
 .environments-container .environments-inner-container .environments-list ul {
@@ -30,15 +54,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  direction: ltr;
 }
 
 .environments-container .environments-inner-container .environments-list ul li {
   width: 100%;
   padding: 20px 0 20px 10px;
+  overflow-x: hidden;
   font-weight: 300;
   font-size: 20px;
   color: #303030;
   cursor: pointer;
+}
+
+.environments-container .environments-inner-container .environments-list ul li p {
+  width: 95%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 .environments-container .environments-inner-container .environments-list ul .styled {
@@ -90,15 +122,10 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $second_color;
+  background: $primary_color;
   border-radius: 10px;
   height: 5px;
   visibility: hidden;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $primary_color;
 }
 
 .environments-container .environments-inner-container .environments-content .content-users .users {
@@ -160,7 +187,7 @@
   padding: 10px 15px;
   margin-top: 25px;
   background-color: transparent;
-  color: #4280de;
+  color: #00A5CF;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -172,7 +199,7 @@
   width: 100px;
   padding: 10px 15px;
   margin-top: 25px;
-  background-color: #F60C0C;
+  background-color: #D72638;
   color: #fff;
   border: none;
   border-radius: 5px;

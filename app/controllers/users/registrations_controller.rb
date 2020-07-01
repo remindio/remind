@@ -41,8 +41,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     @user = User.find_by_email(user_params[:email])
 
-    p "AQUI O CARINHA BICHO: ", @user
-
     if @user.update(user_params)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
       render_response("success", "OK")

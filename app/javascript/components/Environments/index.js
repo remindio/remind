@@ -49,20 +49,23 @@ export default function Environments(props) {
 
   async function inviteUser() {
     const userEmail = prompt('Write an email: ')
-    const params = {
-      user: {
-        email: userEmail
+
+    if (userEmail) {
+      const params = {
+        user: {
+          email: userEmail
+        }
       }
-    }
-
-    // send an email in the future
-    const response = await UserEnvironment.create(selectedEnvironmentId, params)
-
-    if (response.data.status === "success") {
-      setUsers([...users, response.data.message])
-    }
-    else {
-      alert(response.data.message)
+  
+      // send an email in the future
+      const response = await UserEnvironment.create(selectedEnvironmentId, params)
+  
+      if (response.data.status === "success") {
+        setUsers([...users, response.data.message])
+      }
+      else {
+        alert(response.data.message)
+      }
     }
   }
 
@@ -77,12 +80,12 @@ export default function Environments(props) {
         <div className="environments-list">
           <ul>
             {environmentList.length > 0 && environmentList.map(environment => 
-              <li 
-                key={environment.id} 
-                id={environment.id} 
-                className={environment.id == selectedEnvironmentId ? 'styled' : ''}
-                onClick={(event) => setSelectedEnvironmentId(event.target.id)}
-                >{environment.name}
+              <li key={environment.id} className={environment.id == selectedEnvironmentId ? 'styled' : ''}>
+                  <p 
+                    id={environment.id} 
+                    onClick={(event) => setSelectedEnvironmentId(event.target.id)}>
+                      {environment.name}
+                  </p>
               </li>
             )}
           </ul>

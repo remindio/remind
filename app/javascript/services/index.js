@@ -30,6 +30,7 @@ const TaskItems = {
 const User = {
   show: () => api.get(`${apiUrl}/user`),
   update: (userId, params) => api.put(`${apiUrl}/user/${userId}`, params),
+  signOut: () => api.delete('users/sign_out'),
   delete: () => api.delete('users')
 }
 

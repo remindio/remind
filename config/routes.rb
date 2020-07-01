@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   get 'home/index'
   root 'home#index'
-  devise_for :users, :skip => [:registrations] 
+  devise_for :users, :skip => [:registrations, :sessions] 
   as :user do
+    # sessions
+    get 'users/sign_in' => 'users/sessions#new', :as => :new_user_session
+    post 'users/sign_in' => 'users/sessions#create', :as => :user_session
+    delete 'users/sign_out' => 'users/sessions#destroy', :as => :destroy_user_session
+
+    # registrations
     get 'users/cancel' => 'users/registrations#cancel', :as => :cancel_user_registration
     get 'users/sign_up' => 'users/registrations#new', :as => :new_user_registration
     patch 'users/' => 'users/registrations#update', :as => :user_registration

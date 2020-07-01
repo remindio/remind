@@ -71,7 +71,6 @@ export default function NoteStructure(props) {
     const newTitle = event.target.textContent
     setTitle(newTitle)
     handleUpdates(newTitle, width, height, isContentMinimized)
-    props.mainRef.current.onclick = null
   }
 
   async function handleUpdates(newTitle, newWidth, newHeight, isContentMinimized) {
