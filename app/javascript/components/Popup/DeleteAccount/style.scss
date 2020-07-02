@@ -1,0 +1,41 @@
+@import '../../../global.scss';
+
+.delete-account-description {
+  font-size: 16px;
+  color: #666666;
+}
+
+.delete-account-buttons {
+  margin: 50px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.delete-account-buttons .cancel-button {
+  width: 90px;
+  background-color: transparent;
+  border: none;
+  padding: 10px 15px;
+  color: #00A5CF;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.delete-account-buttons .delete-button {
+  width: 90px;
+  padding: 10px 15px;
+  background-color: #D72638;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.delete-account-buttons .delete-button:hover {
+  filter: brightness(90%);
+}

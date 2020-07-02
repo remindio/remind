@@ -2,7 +2,7 @@
 
 class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
+  before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   def new
@@ -39,18 +39,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    @user = User.find_by_email(user_params[:email])
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
 
-    if @user.update(user_params)
-      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-      render_response("success", "OK")
+    resource_updated = update_resource(resource, account_update_params)
+    yield resource if block_given?
+    if resource_updated
+      if sign_in_after_change_password?
+        render json: { status: "success", message: "OK" }
+      else
+        render json: { status: "success", message: "Redirect to login" }
+      end
     else
-      render_response("Error", "Try again")
+      render json: { status: "error", message: "Try again!" }
     end
-  end
-
-  def user_params
-    params.permit(:name, :email, :avatar, :occupation, :company_name)
   end
 
   # DELETE /resource
@@ -91,5 +93,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # The path used after sign up for inactive accounts.
   def after_inactive_sign_up_path_for(resource)
     super(resource)
+  end
+
+  def sign_in_after_change_password?
+    return true if account_update_params[:password].blank?
+    
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    return false
   end
 end

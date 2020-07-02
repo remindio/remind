@@ -6,6 +6,7 @@ import './style.scss'
 import './account_style.scss'
 import Environments from '../../components/Environments/'
 import { User } from '../../services/' 
+import Popup from '../../components/Popup/index'
 // import profilePicture from '../../assets/erickjohnson.jpg'
 
 
@@ -18,6 +19,7 @@ export default function Profile() {
   const [occupation, setOccupation] = useState('')
   const [company, setCompany] = useState('')
   const [currentContent, setCurrentContent] = useState('account')
+  const [isPopupShowing, setIsPopupShowing] = useState('')
 
   useEffect(() => {
     async function loadProfileContent() {
@@ -71,12 +73,20 @@ export default function Profile() {
   }
 
   async function handleDeleteAccount() {
-    const confirmation = confirm('Are you sure?')
+    await User.delete()
+    setIsPopupShowing('')
+    window.location.href = '/'
+  }
 
-    if (confirmation) {
-      await User.delete()
-      window.location.href = '/'
+  async function handleChangePassword(params) {
+    const response = await User.changePassword(params)
+    if (response.data.status == 'success') {
+      setIsPopupShowing('')
+      if (response.data.message == 'Redirect to login')
+        window.location.href = '/'  
     }
+    else
+      alert(response.data.message) 
   }
 
   return (
@@ -142,14 +152,35 @@ export default function Profile() {
                 </p>
               </div>
             </div>
-            <a href="">Change password</a>
-            <button onClick={handleDeleteAccount}>Delete account</button>
+            <a onClick={() => {
+              setIsPopupShowing(
+                <Popup 
+                  title="Change password" 
+                  type="change-password" 
+                  onConfirm={handleChangePassword} 
+                  onCancel={() => setIsPopupShowing('')}
+                />
+              )}}
+              >Change password
+            </a>
+            <button onClick={() => {
+              setIsPopupShowing(
+                <Popup 
+                  title="Delete account" 
+                  type="delete-account" 
+                  onConfirm={handleDeleteAccount} 
+                  onCancel={() => setIsPopupShowing('')}
+                />
+              )}}
+              >Delete account
+            </button>
           </div>
         </div>
       }
       { currentContent === 'environments' && 
         <Environments userId={id}/>
       }
+      { isPopupShowing }
     </div>
   )
 }
