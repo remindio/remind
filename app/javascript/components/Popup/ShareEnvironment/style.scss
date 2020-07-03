@@ -1,0 +1,108 @@
+@import "../../../global.scss";
+@import "../../../utilities.scss";
+
+.share-environment-description {
+  font-size: 16px;
+  color: #666666;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.share-environment-email {
+  width: 100%;
+  padding: 10px;
+  margin: 0 0 10px 0;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+.share-environment-email::placeholder {
+  font-size: 16px;
+}
+
+.user-emails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  overflow-x: scroll;
+  padding-bottom: 5px;
+}
+
+.user-emails::-webkit-scrollbar {
+  height: 5px;
+}
+
+/* Track */
+.user-emails::-webkit-scrollbar-track {
+  background: #dddddd;
+  border-radius: 10px;
+}
+
+/* Handle */
+.user-emails::-webkit-scrollbar-thumb {
+  background: $primary_color;
+  border-radius: 10px;
+  height: 5px;
+  visibility: visible;
+}
+
+.user-emails div {
+  border-radius: 30px;
+  background-color: $second_color;
+  display: flex;
+  align-items: center;
+  margin: auto 0;
+  padding: 5px 10px;
+}
+
+.user-emails div + div {
+  margin-left: 10px;
+}
+
+.user-emails div p {
+  font-weight: 300;
+  font-size: 14px;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.share-environment-buttons {
+  width: 100%;
+  margin: 40px 0 50px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.share-environment-buttons .cancel-button {
+  width: 90px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 10px 15px;
+  color: #D72638;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.share-environment-buttons .invite-button {
+  width: 90px;
+  padding: 10px 15px;
+  background-color: #00A5CF;
+  color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.share-environment-buttons .invite-button:hover {
+  filter: brightness(90%);
+}

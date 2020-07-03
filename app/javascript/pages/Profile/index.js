@@ -166,7 +166,8 @@ export default function Profile() {
             <button onClick={() => {
               setIsPopupShowing(
                 <Popup 
-                  title="Delete account" 
+                  title="Delete account"
+                  message="Are you sure? If you delete your account you won’t be able to recover it later and all your data will be deleted!"
                   type="delete-account" 
                   onConfirm={handleDeleteAccount} 
                   onCancel={() => setIsPopupShowing('')}

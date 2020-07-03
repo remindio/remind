@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Environments as Environment, UserEnvironment } from '../../services/index'
 import { BsFillPersonFill } from 'react-icons/bs';
+import Popup from '../Popup'
 import './style.scss'
 
 export default function Environments(props) {
@@ -8,6 +9,7 @@ export default function Environments(props) {
   const [selectedEnvironmentId, setSelectedEnvironmentId] = useState(0)
   const [users, setUsers] = useState([])
   const [owner, setOwner] = useState([])
+  const [isPopupShowing, setIsPopupShowing] = useState('')
 
   useEffect(() => {
     loadEnvironments()
@@ -34,38 +36,40 @@ export default function Environments(props) {
   }
 
   async function handleDeleteEnvironment() {
-    const confirmation = confirm('Are you sure?')
+    const index = environmentList.findIndex(environment => environment.id == selectedEnvironmentId)
+    await Environment.delete(selectedEnvironmentId)
 
-    if (confirmation) {
-      const index = environmentList.findIndex(environment => environment.id == selectedEnvironmentId)
-      await Environment.delete(selectedEnvironmentId)
-
-      if (index > 0)
-        loadEnvironments(index - 1)
-      else
-        loadEnvironments() 
-    }
+    if (index > 0)
+      loadEnvironments(index - 1)
+    else
+      loadEnvironments() 
+    
+    setIsPopupShowing('')
   }
 
-  async function inviteUser() {
-    const userEmail = prompt('Write an email: ')
+  async function inviteUser(params) {
+    // send an email in the future
+    const response = await UserEnvironment.create(selectedEnvironmentId, params)
+    let invalidUsers = []
+  
+    if (response.data.status === "success") {
+      const currentUsers = users
+      const validUsers = response.data.message.filter(user => user.id != 0)
+      const newUsers = currentUsers.concat(validUsers)
 
-    if (userEmail) {
-      const params = {
-        user: {
-          email: userEmail
-        }
-      }
-  
-      // send an email in the future
-      const response = await UserEnvironment.create(selectedEnvironmentId, params)
-  
-      if (response.data.status === "success") {
-        setUsers([...users, response.data.message])
-      }
-      else {
-        alert(response.data.message)
-      }
+      invalidUsers = response.data.message.filter(user => user.id == 0)
+
+      setUsers(newUsers)
+    }
+    else {
+      alert(response.data.message)
+    }
+
+    setIsPopupShowing('')
+
+    if (invalidUsers && invalidUsers.length !== 0) {
+      const invalidEmails = invalidUsers.map(user => user.email).join(', ')
+      alert(`${invalidEmails} not found!`)
     }
   }
 
@@ -114,18 +118,41 @@ export default function Environments(props) {
           </div>
           <div className="options">
             <button 
-              className="invite-button"
-              onClick={inviteUser}>
-                Invite
+              className="delete-button" 
+              onClick={() => {
+                const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
+                setIsPopupShowing(
+                  <Popup 
+                    title={`Delete ${environment[0].name}`}
+                    message={`Are you sure? If you delete ${environment[0].name} you won’t be able to recover it later and all its data will be deleted!`}
+                    type="delete-account"
+                    users={users}
+                    onConfirm={handleDeleteEnvironment} 
+                    onCancel={() => setIsPopupShowing('')}
+                  />
+                )
+              }}>
+                {props.userId == owner[1] ? "Delete" : "Leave"}
             </button>
             <button 
-              className="delete-button" 
-              onClick={handleDeleteEnvironment}>
-                {props.userId == owner[1] ? "Delete" : "Leave"}
+              className="invite-button"
+              onClick={() => {
+                const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
+                setIsPopupShowing(
+                  <Popup 
+                    title={`Share ${environment[0].name}`} 
+                    type="share-environment"
+                    users={users}
+                    onConfirm={inviteUser} 
+                    onCancel={() => setIsPopupShowing('')}
+                  />
+                )}}>
+                Invite
             </button>
           </div>
         </div>
       </div>
+      { isPopupShowing }
     </div>
   )
 }

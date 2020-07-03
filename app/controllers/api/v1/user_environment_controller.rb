@@ -1,22 +1,19 @@
 class Api::V1::UserEnvironmentController < ApplicationController
   def create
-    # @users_email = user_environment_params
-    # @users_email.each do |user_email|
-    #   @user = User.find_by(email: user_email["email"])
-    #   @user_environment = UserEnvironment.create(user_id: @user.id, environment_id: params[:environment_id])
-    # end
-    # render_response("success", "OK!")
+    users_email = user_environment_params
+    users = users_email.map { |user_email|
+      user = User.find_by(email: user_email["email"])
 
-    @user_email = user_environment_params
-    @user = User.find_by(email: @user_email["email"])
+      if user
+        user_environment = UserEnvironment.create(user_id: user.id, environment_id: params[:environment_id])
+        url = user.avatar.attached? ? rails_blob_path(user.avatar, only_path: true) : ""
+        { id: user.id, name: user.name, email: user_email["email"], avatar: url }
+      else
+        { id: 0, name: "", email: user_email["email"], avatar: '' }
+      end
+    }
 
-    if @user
-      @user_environment = UserEnvironment.create(user_id: @user.id, environment_id: params[:environment_id])
-      url = @user.avatar.attached? ? rails_blob_path(@user.avatar, only_path: true) : ""
-      render_response("success", { :id => @user.id, :name => @user.name, :avatar => url})
-    else
-      render_response("error", "User not found!")
-    end
+    render_response("success", users)
   end
 
   def destroy
@@ -33,6 +30,6 @@ class Api::V1::UserEnvironmentController < ApplicationController
 
   private
     def user_environment_params
-      params.require(:user)
+      params.require(:users)
     end
 end
