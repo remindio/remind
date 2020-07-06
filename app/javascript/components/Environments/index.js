@@ -81,40 +81,47 @@ export default function Environments(props) {
   return(
     <div className="environments-container">
       <div className="environments-inner-container">
-        <div className="environments-list">
-          <ul>
-            {environmentList.length > 0 && environmentList.map(environment => 
-              <li key={environment.id} className={environment.id == selectedEnvironmentId ? 'styled' : ''}>
-                  <p 
-                    id={environment.id} 
-                    onClick={(event) => setSelectedEnvironmentId(event.target.id)}>
-                      {environment.name}
-                  </p>
-              </li>
-            )}
-          </ul>
+        <div className="environments-list-content">
+          <div className="environments-list">
+            <ul>
+              {environmentList.length > 0 && environmentList.map(environment => 
+                <li key={environment.id} className={environment.id == selectedEnvironmentId ? 'styled' : ''}>
+                    <p 
+                      placeholder="Environment Name"
+                      id={environment.id} 
+                      onClick={(event) => setSelectedEnvironmentId(event.target.id)}>
+                        {environment.name}
+                    </p>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
         <div className="environments-content">
-          <div className="description">
-            <p>Owner: {owner && owner[0]}</p>
-            <p>Shared with: ({users.length > 0 ? users.length - 1 : 0})</p>
-          </div>
-          <div className="content-users">
-            {users && users.map(user => {
-              if (user.id == props.userId) 
-                return null
-              return (
-                <div key={user.id} className="users">
-                  <div>
-                    { user.avatar ? 
-                      <img src={`${user.avatar}`} alt=""/> : <BsFillPersonFill id="user-photo" /> 
-                    }
+          <div className="environments-upper-content">
+            <div className="description">
+              <p>Owner: {owner && owner[0]}</p>
+              <p>Shared with: ({users.length > 0 ? users.length - 1 : 0})</p>
+            </div>
+            <div className="content-users">
+              {users && users.map(user => {
+                if (user.id == props.userId) 
+                  return null
+                return (
+                  <div key={user.id} className="users">
+                    <div className="user-avatar-background">
+                      { user.avatar ? 
+                        <img src={`${user.avatar}`} alt=""/> : <BsFillPersonFill id="user-photo" /> 
+                      }
+                    </div>
+                    <div className="user-name">
+                      <p>{user.name}</p>
+                    </div>
+                    {props.userId == owner[1] && <button onClick={() => removeUser(user.id)}>Remove</button>}
                   </div>
-                  <p>{user.name}</p>
-                  {props.userId == owner[1] && <button onClick={() => removeUser(user.id)}>Remove</button>}
-                </div>
+                )}
               )}
-            )}
+            </div>
           </div>
           <div className="options">
             <button 

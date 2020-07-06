@@ -18,26 +18,34 @@
   border-radius: 10px;
 }
 
-.environments-container .environments-inner-container .environments-list {
+.environments-container .environments-inner-container .environments-list-content {
   width: 30%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #F5F5F5;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+}
+
+.environments-container .environments-inner-container .environments-list-content .environments-list {
+  width: 100%;
   overflow-y: scroll;
   direction: rtl;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  background-color: #F5F5F5;
-  padding: 0 0 0 10px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 
   &::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 100px;
+    border-radius: 10px;
   }
 }
 
-.environments-container .environments-inner-container .environments-list:hover {
+.environments-container .environments-inner-container .environments-list-content .environments-list:hover {
   &::-webkit-scrollbar-thumb {
     visibility: visible;
   }
@@ -45,11 +53,11 @@
   /* Track */
   &::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 100px;
+    border-radius: 10px;
   }
 }
 
-.environments-container .environments-inner-container .environments-list ul {
+.environments-container .environments-inner-container .environments-list-content .environments-list ul {
   list-style: none;
   display: flex;
   flex-direction: column;
@@ -57,23 +65,30 @@
   direction: ltr;
 }
 
-.environments-container .environments-inner-container .environments-list ul li {
+.environments-container .environments-inner-container .environments-list-content .environments-list ul li {
   width: 100%;
-  padding: 20px 0 20px 10px;
   overflow-x: hidden;
   font-weight: 300;
   font-size: 20px;
   color: #303030;
+}
+
+.environments-container .environments-inner-container .environments-list-content .environments-list ul li p {
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 20px 0 20px 10px;
   cursor: pointer;
 }
 
-.environments-container .environments-inner-container .environments-list ul li p {
-  width: 95%;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+p:empty:before {
+  content: attr(placeholder);
+  display: block;
+  opacity: 0.5;
 }
 
-.environments-container .environments-inner-container .environments-list ul .styled {
+.environments-container .environments-inner-container .environments-list-content .environments-list ul .styled {
   border-right: 3px solid $primary_color;
   color: $second_color;
 }
@@ -83,6 +98,7 @@
   background-color: #F8F9FC;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   padding: 20px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -133,14 +149,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 64px;
   margin-right: 20px;
 }
 
-
-.environments-container .environments-inner-container .environments-content .content-users .users p {
+.environments-container .environments-inner-container .environments-content .content-users .users .user-name p {
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
   font-weight: 300;
+  max-height: 38px;
+  max-width: 64px;
   color: #303030;
+  word-spacing: 9999999px;
   margin-top: 5px;
 }
 
@@ -154,7 +175,7 @@
   cursor: pointer;
 }
 
-.environments-container .environments-inner-container .environments-content .content-users .users div {
+.environments-container .environments-inner-container .environments-content .content-users .users .user-avatar-background {
   background-color: #c1c9cc;
   width: 64px;
   height: 64px;
@@ -162,13 +183,13 @@
   display: flex;
 }
 
-.environments-container .environments-inner-container .environments-content .content-users .users div img {
+.environments-container .environments-inner-container .environments-content .content-users .users .user-avatar-background img {
   width: 64px;
   height: 64px;
   border-radius: 100%;
 }
 
-.environments-container .environments-inner-container .environments-content .content-users .users div #user-photo {
+.environments-container .environments-inner-container .environments-content .content-users .users .user-avatar-background #user-photo {
   width: 48px;
   height: 48px;
   color: #fff;
