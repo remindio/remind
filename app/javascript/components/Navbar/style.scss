@@ -166,6 +166,35 @@
   z-index: 2;
 }
 
+.navbar .navbar-container .navbar-container-left .container-environments ul div {
+  max-height: 196px;
+  overflow-y: auto;
+
+  
+  &::-webkit-scrollbar-thumb {
+    display: none;
+  }
+  
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Track */
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 10px;
+    width: 5px;
+    visibility: hidden;
+  }
+  
+}
+
 [contenteditable]:empty:before {
   content: attr(placeholder);
   display: block;

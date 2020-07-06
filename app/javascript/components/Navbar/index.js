@@ -114,24 +114,26 @@ export default function Navbar(props) {
               >{selectedEnvironment ? selectedEnvironment.name : ''}
             </h1>
             <ul>
-              {environmentList.length > 0 && environmentList.map(environment => {
-                if (environment.id === selectedEnvironment.id)
-                  return null
+              <div>
+                {environmentList.length > 0 && environmentList.map(environment => {
+                  if (environment.id === selectedEnvironment.id)
+                    return null
 
-                return (
-                  <li  
-                    placeholder="Environment name"
-                    key={environment.id} 
-                    onClick={handleSelectEnvironment} 
-                    id={environment.id}>
-                    {environment.name}
-                  </li>
-                )
-              })}
-                <li onClick={handleNewEnvironment} className="new-environment">
-                  <IoMdAddCircleOutline size={24} style ={{ color: "#FFFFFF", marginRight: "5px" }} />
-                  Create new environment
-                </li>
+                  return (
+                    <li  
+                      placeholder="Environment name"
+                      key={environment.id} 
+                      onClick={handleSelectEnvironment} 
+                      id={environment.id}>
+                      {environment.name}
+                    </li>
+                  )
+                })}
+              </div>
+              <li onClick={handleNewEnvironment} className="new-environment">
+                <IoMdAddCircleOutline size={24} style ={{ color: "#FFFFFF", marginRight: "5px" }} />
+                Create new environment
+              </li>
             </ul>
           </div>
         </div>
