@@ -19,21 +19,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 25px;
+  box-sizing: border-box;
 }
 
 .outter-popup-container .popup-container .popup-container-title {
+  margin: 30px 25px 50px 25px;
   width: 100%;
-  margin: 30px 0 50px 0;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .outter-popup-container .popup-container .popup-container-title h1 {
   color: #303030;
   font-weight: normal;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .outter-popup-container .popup-container .popup-content {
