@@ -41,6 +41,9 @@ export default function Navbar(props) {
     const response = await Environments.create()
     setEnvironmentList([...environmentList, response.data.message])
     setSelectedEnvironment(response.data.message)
+
+    let list = document.getElementById('environment-list')
+    list.scrollTop = list.scrollHeight
   }
 
   async function handleNameUpdate(event) {
@@ -114,7 +117,7 @@ export default function Navbar(props) {
               >{selectedEnvironment ? selectedEnvironment.name : ''}
             </h1>
             <ul>
-              <div>
+              <div id="environment-list">
                 {environmentList.length > 0 && environmentList.map(environment => {
                   if (environment.id === selectedEnvironment.id)
                     return null
