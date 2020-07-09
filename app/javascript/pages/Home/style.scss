@@ -54,7 +54,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin-top: 100px;
+  margin: 100px 20px 0 20px;
 }
 
 .home-page section .main-description {
@@ -87,10 +87,15 @@
   padding: 10px;
   border-radius: 15px;
   outline: none;
-  cursor: pointer;
   font-weight: bold;
   font-size: 15px;
   border: none;
   margin-left: 20px;
   color: #fff;
+  transition: filter 0.3s;
+  cursor: pointer;
+}
+
+.home-page section .main-subdescription button:hover {
+  filter: brightness(90%);
 }

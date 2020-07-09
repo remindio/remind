@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def after_sign_in_path_for(resource)
+    '/app'
+  end
+
   protected
     def user_in_environment?(environment_params)
       @user_environment = UserEnvironment.find_by(user_id: current_user.id, environment_id: environment_params)

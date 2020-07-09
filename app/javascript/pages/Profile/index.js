@@ -83,7 +83,7 @@ export default function Profile() {
     if (response.data.status == 'success') {
       setIsPopupShowing('')
       if (response.data.message == 'Redirect to login')
-        window.location.href = '/'  
+        window.location.href = '/users/sign_in'  
     }
     else
       alert(response.data.message) 
@@ -92,7 +92,7 @@ export default function Profile() {
   return (
     <div className="profile">
       <nav>
-        <Link to="/"><BsChevronDoubleLeft size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginLeft: "32px"  }}/></Link>
+        <Link to="/app"><BsChevronDoubleLeft size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginLeft: "32px"  }}/></Link>
       </nav>
       <div className="profile-picture">
         <MyDropzone imageUrl={imageUrl} onFileUploaded={setImage} />

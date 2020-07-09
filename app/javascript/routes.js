@@ -9,8 +9,8 @@ export default function Routes() {
   return (
     <Router>
       <Switch>
-        <Route path="/" exact component={Home} />
         <Route path="/app" exact component={Main} />
+        <Route path="/" exact component={Home} />
         <Route path="/profile" component={Profile} />
       </Switch>
     </Router>
