@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, unless: -> { request.env['PATH_INFO'] == '/login' }
+  before_action :authenticate_user!, unless: -> { request.env['PATH_INFO'] == '/' }
   protect_from_forgery except: [:create, :destroy, :update]
 
   def render_response(status, message)
