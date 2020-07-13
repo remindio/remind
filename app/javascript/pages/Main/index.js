@@ -140,39 +140,46 @@ export default function Main() {
         fetchEnvironmentContent={fetchEnvironmentContent}
       />
       <div className="content" onContextMenu={renderOptionMenu} ref={contentRef}>
-        <div>
-          {notes.length > 0 && notes.map(note =>
-            <NoteStructure
-              key={note.id}
-              id={note.id}
-              title={note.title} 
-              description={note.description} 
-              isTask={false} 
-              environment_id={currentEnvironmentID}
-              positionX={note.positionX} 
-              positionY={note.positionY}
-              width={note.width}
-              height={note.height}
-              minimized={note.minimized}
-              fetchEnvironmentContent={fetchEnvironmentContent}
-            />
-          )}
-          {tasks.length > 0 && tasks.map(task =>
-            <NoteStructure
-              key={task.id}
-              id={task.id}
-              title={task.title} 
-              isTask={true}
-              environment_id={currentEnvironmentID}
-              positionX={task.positionX} 
-              positionY={task.positionY}
-              width={task.width}
-              height={task.height}
-              minimized={task.minimized}
-              fetchEnvironmentContent={fetchEnvironmentContent}
-            />
-          )}
-        </div>
+        {notes.length === 0 && tasks.length === 0 &&
+          <div className="without-content">
+            <p>Right click to create a note or task list!</p>
+          </div>
+        }
+        {(notes.length > 0 || tasks.length > 0) && 
+          <div>
+            {notes.length > 0 && notes.map(note =>
+              <NoteStructure
+                key={note.id}
+                id={note.id}
+                title={note.title} 
+                description={note.description} 
+                isTask={false} 
+                environment_id={currentEnvironmentID}
+                positionX={note.positionX} 
+                positionY={note.positionY}
+                width={note.width}
+                height={note.height}
+                minimized={note.minimized}
+                fetchEnvironmentContent={fetchEnvironmentContent}
+              />
+            )}
+            {tasks.length > 0 && tasks.map(task =>
+              <NoteStructure
+                key={task.id}
+                id={task.id}
+                title={task.title} 
+                isTask={true}
+                environment_id={currentEnvironmentID}
+                positionX={task.positionX} 
+                positionY={task.positionY}
+                width={task.width}
+                height={task.height}
+                minimized={task.minimized}
+                fetchEnvironmentContent={fetchEnvironmentContent}
+              />
+            )}
+          </div>
+        }
         {optionMenu.length > 0 && optionMenu.map(menu =>
           <OptionMenu
             key={1}
