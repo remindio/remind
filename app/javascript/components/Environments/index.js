@@ -81,93 +81,109 @@ export default function Environments(props) {
   return(
     <div className="environments-container">
       <div className="environments-inner-container">
-        <div className="environments-list-content">
-          <div className="environments-list">
-            <ul>
-              {environmentList.length > 0 && environmentList.map(environment => 
-                <li key={environment.id} className={environment.id == selectedEnvironmentId ? 'styled' : ''}>
-                    <p 
-                      placeholder="Environment Name"
-                      id={environment.id} 
-                      onClick={(event) => setSelectedEnvironmentId(event.target.id)}>
-                        {environment.name}
-                    </p>
-                </li>
-              )}
-            </ul>
+        {environmentList.length === 0 && 
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <p 
+              style={{ alignSelf: 'center', color: '#303030', fontSize: 20, marginBottom: 5 }}>
+              You don't own or are not part of any environment :(
+            </p>
+            <p 
+              style={{ alignSelf: 'center', color: '#666', fontSize: 18 }}>
+              Create one by simply returning to the main page!
+            </p>
           </div>
-        </div>
-        <div className="environments-content">
-          <div className="environments-upper-content">
-            <div className="description">
-              <p>Owner: {owner && owner[0]}</p>
-              <p>Shared with: ({users.length > 0 ? users.length - 1 : 0})</p>
+        }
+        {environmentList.length > 0 &&
+          <>
+            <div className="environments-list-content">
+              <div className="environments-list">
+                <ul>
+                  {environmentList.length > 0 && environmentList.map(environment => 
+                    <li key={environment.id} className={environment.id == selectedEnvironmentId ? 'styled' : ''}>
+                        <p 
+                          placeholder="Environment Name"
+                          id={environment.id} 
+                          onClick={(event) => setSelectedEnvironmentId(event.target.id)}>
+                            {environment.name}
+                        </p>
+                    </li>
+                  )}
+                </ul>
+              </div>
             </div>
-            <div className="content-users">
-              {users && users.map(user => {
-                if (user.id == props.userId) 
-                  return null
-                return (
-                  <div key={user.id} className="users">
-                    <div className="user-avatar-background">
-                      { user.avatar ? 
-                        <img src={`${user.avatar}`} alt=""/> : <BsFillPersonFill id="user-photo" /> 
-                      }
-                    </div>
-                    <div className="user-name">
-                      <p>{user.name}</p>
-                    </div>
-                    {props.userId == owner[1] && <button onClick={() => removeUser(user.id)}>Remove</button>}
-                  </div>
-                )}
-              )}
-            </div>
-          </div>
-          <div className="options">
-            <button 
-              className="delete-button" 
-              onClick={() => {
-                const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
-                let title, message
+            <div className="environments-content">
+              <div className="environments-upper-content">
+                <div className="description">
+                  <p>Owner: {owner && owner[0]}</p>
+                  <p>Shared with: ({users.length > 0 ? users.length - 1 : 0})</p>
+                </div>
+                <div className="content-users">
+                  {users && users.map(user => {
+                    if (user.id == props.userId) 
+                      return null
+                    return (
+                      <div key={user.id} className="users">
+                        <div className="user-avatar-background">
+                          { user.avatar ? 
+                            <img src={`${user.avatar}`} alt=""/> : <BsFillPersonFill id="user-photo" /> 
+                          }
+                        </div>
+                        <div className="user-name">
+                          <p>{user.name}</p>
+                        </div>
+                        {props.userId == owner[1] && <button onClick={() => removeUser(user.id)}>Remove</button>}
+                      </div>
+                    )}
+                  )}
+                </div>
+              </div>
+              <div className="options">
+                <button 
+                  className="delete-button" 
+                  onClick={() => {
+                    const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
+                    let title, message
 
-                if (props.userId == owner[1]) {
-                  title = `Delete ${environment[0].name}`
-                  message = `Are you sure? If you delete ${environment[0].name} you won’t be able to recover it later and all its data will be deleted!`
-                }
-                else {
-                  title = `Leave ${environment[0].name}`
-                  message = `Are you sure you want to leave ${environment[0].name}?`
-                }
-                setIsPopupShowing(
-                  <Popup 
-                    title={title}
-                    message={message}
-                    type="delete-account"
-                    users={users}
-                    onConfirm={handleDeleteEnvironment} 
-                    onCancel={() => setIsPopupShowing('')}
-                  />
-                )
-              }}>
-                {props.userId == owner[1] ? "Delete" : "Leave"}
-            </button>
-            <button 
-              className="invite-button"
-              onClick={() => {
-                const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
-                setIsPopupShowing(
-                  <Popup 
-                    title={`Share ${environment[0].name}`} 
-                    type="share-environment"
-                    users={users}
-                    onConfirm={inviteUser} 
-                    onCancel={() => setIsPopupShowing('')}
-                  />
-                )}}>
-                Invite
-            </button>
-          </div>
-        </div>
+                    if (props.userId == owner[1]) {
+                      title = `Delete ${environment[0].name}`
+                      message = `Are you sure? If you delete ${environment[0].name} you won’t be able to recover it later and all its data will be deleted!`
+                    }
+                    else {
+                      title = `Leave ${environment[0].name}`
+                      message = `Are you sure you want to leave ${environment[0].name}?`
+                    }
+                    setIsPopupShowing(
+                      <Popup 
+                        title={title}
+                        message={message}
+                        type="delete-account"
+                        users={users}
+                        onConfirm={handleDeleteEnvironment} 
+                        onCancel={() => setIsPopupShowing('')}
+                      />
+                    )
+                  }}>
+                    {props.userId == owner[1] ? "Delete" : "Leave"}
+                </button>
+                <button 
+                  className="invite-button"
+                  onClick={() => {
+                    const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
+                    setIsPopupShowing(
+                      <Popup 
+                        title={`Share ${environment[0].name}`} 
+                        type="share-environment"
+                        users={users}
+                        onConfirm={inviteUser} 
+                        onCancel={() => setIsPopupShowing('')}
+                      />
+                    )}}>
+                    Invite
+                </button>
+              </div>
+            </div>
+          </>
+        }
       </div>
       { isPopupShowing }
     </div>

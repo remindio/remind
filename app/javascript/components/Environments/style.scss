@@ -16,6 +16,7 @@
   margin: 30px auto 0 auto;
   border: 1px solid #ddd;
   border-radius: 10px;
+  background-color: #f8f9fc;
 }
 
 .environments-container .environments-inner-container .environments-list-content {
@@ -150,6 +151,7 @@ p:empty:before {
   justify-content: center;
   width: 64px;
   margin-right: 20px;
+  margin-bottom: 10px;
 }
 
 .environments-container .environments-inner-container .environments-content .content-users .users .user-name p {
@@ -205,7 +207,6 @@ p:empty:before {
 .environments-container .environments-inner-container .environments-content .options .invite-button {
   width: 100px;
   padding: 10px 15px;
-  margin-top: 25px;
   background-color: #00A5CF;
   color: #fff;
   outline: none;
@@ -219,7 +220,6 @@ p:empty:before {
 .environments-container .environments-inner-container .environments-content .options .delete-button {
   width: 100px;
   padding: 10px 15px;
-  margin-top: 25px;
   background-color: transparent;
   color: #D72638;
   outline: none;
