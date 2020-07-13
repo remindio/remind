@@ -95,6 +95,7 @@ p:empty:before {
 
 .environments-container .environments-inner-container .environments-content {
   width: 70%;
+  height: 100%;
   background-color: #F8F9FC;
   display: flex;
   flex-direction: column;
@@ -116,8 +117,6 @@ p:empty:before {
   align-items: center;
   width: 100%;
   overflow-x: scroll;
-  padding-bottom: 20px;
-  min-height: 132px;
 }
 
 .environments-container .environments-inner-container .environments-content .content-users:hover {

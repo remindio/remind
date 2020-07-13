@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Notes } from '../../services/'
+import './style.scss'
 
 export default function Note(props) {
   const [description, setDescription] = useState(props.description)
