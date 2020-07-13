@@ -8,9 +8,18 @@ class Api::V1::UserController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    previous_name = @user.name
  
     if current_user.id == @user.id
       if @user.update(user_params)
+        if previous_name != @user.name
+          @environments = Environment.where(created_by: @user.id)
+
+          @environments.each do |environment|
+            environment.update(created_by_name: @user.name)
+          end
+        end
+        
         render_response("success", "OK")
       else
         render_response("Error", "Try again")
