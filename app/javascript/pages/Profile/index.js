@@ -92,7 +92,7 @@ export default function Profile() {
   return (
     <div className="profile">
       <nav>
-        <Link to="/app"><BsChevronDoubleLeft size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginLeft: "32px"  }}/></Link>
+        <Link to="/"><BsChevronDoubleLeft size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginLeft: "32px"  }}/></Link>
       </nav>
       <div className="profile-picture">
         <MyDropzone imageUrl={imageUrl} onFileUploaded={setImage} />
