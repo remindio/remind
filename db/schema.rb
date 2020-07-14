@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2020_06_22_192839) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -45,13 +48,13 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
     t.string "title", default: "Note title", null: false
     t.string "description", default: "", null: false
     t.float "positionX", default: 0.0, null: false
-    t.float "positionY", default: 65.0, null: false
+    t.float "positionY", default: 0.0, null: false
     t.integer "width", default: 0, null: false
     t.integer "height", default: 0, null: false
     t.boolean "minimized?", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "environment_id", null: false
+    t.bigint "environment_id", null: false
     t.index ["environment_id"], name: "index_notes_on_environment_id"
   end
 
@@ -60,7 +63,7 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
     t.boolean "task_completed?", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "task_list_id", null: false
+    t.bigint "task_list_id", null: false
     t.index ["task_list_id"], name: "index_task_list_items_on_task_list_id"
   end
 
@@ -73,13 +76,13 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
     t.boolean "minimized?", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "environment_id", null: false
+    t.bigint "environment_id", null: false
     t.index ["environment_id"], name: "index_task_lists_on_environment_id"
   end
 
   create_table "user_environments", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "environment_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "environment_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["environment_id"], name: "index_user_environments_on_environment_id"
