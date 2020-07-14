@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
   create_table "notes", force: :cascade do |t|
     t.string "title", default: "Note title", null: false
     t.string "description", default: "", null: false
-    t.integer "positionX", default: 0, null: false
-    t.integer "positionY", default: 65, null: false
+    t.float "positionX", default: 0.0, null: false
+    t.float "positionY", default: 65.0, null: false
     t.integer "width", default: 0, null: false
     t.integer "height", default: 0, null: false
     t.boolean "minimized?", default: false, null: false
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 2020_06_22_192839) do
 
   create_table "task_lists", force: :cascade do |t|
     t.string "title", default: "Task list title", null: false
-    t.integer "positionX", default: 0, null: false
-    t.integer "positionY", default: 0, null: false
+    t.float "positionX", default: 0.0, null: false
+    t.float "positionY", default: 0.0, null: false
     t.integer "width", default: 0, null: false
     t.integer "height", default: 0, null: false
     t.boolean "minimized?", default: false, null: false

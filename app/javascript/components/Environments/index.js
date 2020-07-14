@@ -31,8 +31,10 @@ export default function Environments(props) {
 
   async function loadEnvironments(index = 0) {
     const response = await Environment.index()
-    setEnvironmentList(response.data.environments)
-    setSelectedEnvironmentId(response.data.environments[index].id)
+    if (response.data.environments.length > 0) {
+      setEnvironmentList(response.data.environments)
+      setSelectedEnvironmentId(response.data.environments[index].id)
+    }
   }
 
   async function handleDeleteEnvironment() {

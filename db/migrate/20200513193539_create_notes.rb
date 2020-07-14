@@ -3,8 +3,8 @@ class CreateNotes < ActiveRecord::Migration[6.0]
     create_table :notes do |t|
       t.string :title, null: false, default: 'Note title'
       t.string :description, null: false, default: ''
-      t.integer :positionX, null: false, default: 0
-      t.integer :positionY, null: false, default: 65
+      t.float :positionX, precision: 53, null: false, default: 0
+      t.float :positionY, precision: 53, null: false, default: 0
       t.integer :width, null: false, default: 0
       t.integer :height, null: false, default: 0
       t.boolean :minimized?, null: false, default: false

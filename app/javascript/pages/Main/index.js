@@ -75,8 +75,8 @@ export default function Main() {
   async function createNote() {
     const params = {
       note: {
-        positionX: positionX,
-        positionY: positionY
+        positionX: positionX / window.innerWidth,
+        positionY: positionY / window.innerHeight,
       }
     }
 
@@ -90,8 +90,8 @@ export default function Main() {
   async function createList() {
     const params = {
       task_list: {
-        positionX: positionX,
-        positionY: positionY
+        positionX: positionX / window.innerWidth,
+        positionY: positionY / window.innerHeight,
       }
     }
 

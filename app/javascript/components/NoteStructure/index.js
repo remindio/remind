@@ -10,8 +10,8 @@ export default function NoteStructure(props) {
   const [title, setTitle] = useState(props.title)
   const [width, setWidth] = useState(props.width)
   const [height, setHeight] = useState(props.height)
-  const [positionX, setPositionX] = useState(props.positionX)
-  const [positionY, setPositionY] = useState(props.positionY)
+  const [positionX, setPositionX] = useState(props.positionX * window.innerWidth)
+  const [positionY, setPositionY] = useState(props.positionY * window.innerHeight)
   const [isContentMinimized, setIsContentMinimized] = useState(props.minimized)
   const noteRef = useRef(null)
   const contentRef = useRef(null)
@@ -24,6 +24,8 @@ export default function NoteStructure(props) {
       noteRef.current.style.backgroundColor = "transparent"
       noteRef.current.style.zIndex = 0
       noteRef.current.style.resize = "none"
+      console.log(window.innerHeight)
+      console.log(window.innerWidth)
     }
     else {
       contentRef.current.style.display = "block"
@@ -78,8 +80,8 @@ export default function NoteStructure(props) {
       const params = {
         note: {
           title: newTitle,
-          positionX: positionX,
-          positionY: positionY,
+          positionX: positionX / window.innerWidth,
+          positionY: positionY / window.innerHeight,
           width: newWidth,
           height: newHeight,
           "minimized?": isContentMinimized
@@ -92,8 +94,8 @@ export default function NoteStructure(props) {
       const params = {
         task_list: {
           title: newTitle,
-          positionX: positionX,
-          positionY: positionY,
+          positionX: positionX / window.innerWidth,
+          positionY: positionY / window.innerHeight,
           width: newWidth,
           height: newHeight,
           "minimized?": isContentMinimized 
