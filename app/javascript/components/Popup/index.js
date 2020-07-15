@@ -1,5 +1,5 @@
 import React from 'react'
-import DeleteAccount from './DeleteAccount'
+import Delete from './Delete'
 import ChangePassword from './ChangePassword'
 import ShareEnvironment from './ShareEnvironment'
 
@@ -21,10 +21,20 @@ export default function Popup(props) {
               onCancel={props.onCancel} 
             /> 
           }
+          { props.type === 'delete' && 
+            <Delete
+              environmentName={props.environmentName}
+              isDelete={props.isDelete}
+              isDeleteAccount={false}
+              onConfirm={props.onConfirm} 
+              onCancel={props.onCancel} 
+            /> 
+          }
           { props.type === 'delete-account' && 
-            <DeleteAccount 
-              title={props.title} 
-              message={props.message} 
+            <Delete
+              message={props.message}
+              isDelete={true}
+              isDeleteAccount={true}
               onConfirm={props.onConfirm} 
               onCancel={props.onCancel} 
             /> 

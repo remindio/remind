@@ -144,22 +144,14 @@ export default function Environments(props) {
                   className="delete-button" 
                   onClick={() => {
                     const environment = environmentList.filter(environment => environment.id == selectedEnvironmentId)
-                    let title, message
 
-                    if (props.userId == owner[1]) {
-                      title = `Delete ${environment[0].name}`
-                      message = `Are you sure? If you delete ${environment[0].name} you won’t be able to recover it later and all its data will be deleted!`
-                    }
-                    else {
-                      title = `Leave ${environment[0].name}`
-                      message = `Are you sure you want to leave ${environment[0].name}?`
-                    }
                     setIsPopupShowing(
-                      <Popup 
-                        title={title}
-                        message={message}
-                        type="delete-account"
+                      <Popup
+                        title={props.userId == owner[1] ? `Delete ${environment[0].name}` : `Leave ${environment[0].name}`}
+                        environmentName={environment[0].name}
+                        type="delete"
                         users={users}
+                        isDelete={props.userId == owner[1]}
                         onConfirm={handleDeleteEnvironment} 
                         onCancel={() => setIsPopupShowing('')}
                       />
