@@ -47,14 +47,6 @@ class Api::V1::TaskListItemController < ApplicationController
     
       if @task_list_item
         @task_list_item.destroy
-
-        @task_list_item = TaskListItem.where(task_list_id: params[:task_list_id])
-
-        if @task_list_item.length == 0
-          @task_list = TaskList.find(params[:task_list_id])
-          @task_list.destroy
-        end
-
         render_response("success", "OK!")
       else
         render_response("error", "Try again!")

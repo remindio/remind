@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TiDeleteOutline } from 'react-icons/ti'
 import { TaskItems } from '../../services/'
 import './style.scss'
@@ -9,10 +9,6 @@ export default function TaskList(props) {
   useEffect(() => {
     getItems()
   }, [])
-
-  useEffect(() => {
-
-  }, [items])
 
   async function getItems() {
     const response = await TaskItems.index(props.environment_id, props.id)
@@ -28,13 +24,16 @@ export default function TaskList(props) {
 
   async function handleDeleteTaskItem(id, type) {
     const index = items.findIndex(item => item.id === id)
-    await TaskItems.delete(props.environment_id, props.id, id)
-    getItems()
 
-    if (type !== 'icon' && index > 0) {
-      const itemId = items[index - 1].id
-      const element = document.getElementById(itemId)
-      props.setEndOfContenteditable(element)
+    if (items.length !== 1) {
+      await TaskItems.delete(props.environment_id, props.id, id)
+      getItems()
+
+      if (type !== 'icon' && index > 0) {
+        const itemId = items[index - 1].id
+        const element = document.getElementById(itemId)
+        props.setEndOfContenteditable(element)
+      }
     }
   }
 
@@ -75,8 +74,8 @@ export default function TaskList(props) {
   return (
     <>
       {items.map(item =>
-        <div id="teste" key={item.id} className="container-item">
-          <div id="teste" className="left-container-item">
+        <div key={item.id} className="container-item">
+          <div className="left-container-item">
             <input type="checkbox" defaultChecked={item.task_completed} onClick={(event) => handleIsCompleted(event, item.id)} />
             <p
               id={item.id}
@@ -90,11 +89,13 @@ export default function TaskList(props) {
             </p>
           </div>
           <div className="delete-icon">
-            <TiDeleteOutline 
-              size={18} 
-              style={{ opacity: 0.5, cursor: 'pointer' }} 
-              onClick={(event) => handleDeleteTaskItem(item.id, 'icon')} 
-            />
+            {items.length > 1 &&
+              <TiDeleteOutline 
+                size={18} 
+                style={{ opacity: 0.5, cursor: 'pointer', color: '#303030' }} 
+                onClick={(event) => handleDeleteTaskItem(item.id, 'icon')} 
+              />
+            }
           </div>
         </div>
       )}
