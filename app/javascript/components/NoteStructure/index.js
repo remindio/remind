@@ -57,12 +57,14 @@ export default function NoteStructure(props) {
     offsetY = event.clientY - noteRef.current.getBoundingClientRect().top
     offsetX = event.clientX - noteRef.current.getBoundingClientRect().left
     noteRef.current.style.zIndex = 2
+    noteRef.current.style.cursor = 'grabbing'
     document.onmousemove = movingNote
   }
 
   function handleNoteSelection(event) {
     document.onmouseup = null
     document.onmousemove = null
+    noteRef.current.style.cursor = 'auto'
     noteRef.current.style.zIndex = 1
     if (event.target.id === 'trash-button' || event.target.id === 'minimize-button')
       return
@@ -177,7 +179,7 @@ export default function NoteStructure(props) {
                   setEndOfContenteditable(titleRef.current)
                 }
               }}
-              placeholder={props.isTask ? "Task title" : "Note title"}
+              placeholder={props.isTask ? "Untitled task" : "Untitled note"}
               suppressContentEditableWarning={true} 
               onBlur={(event) => { handleTitleUpdate(event); titleRef.current.contentEditable = false }}
               onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
@@ -189,13 +191,13 @@ export default function NoteStructure(props) {
             <BsTrash
               id="trash-button"
               size={20}
-              style={{ color: "#FFFFFF", marginRight: 2 }} 
+              style={{ color: "#FFFFFF", marginRight: 2, cursor: 'pointer' }} 
               onClick={deleteNote}
             />
             <AiOutlineMinusSquare 
               id="minimize-button"
               size={24} 
-              style={{ color: "#FFFFFF", borderRadius: 15 }} 
+              style={{ color: "#FFFFFF", borderRadius: 15, cursor: 'pointer' }} 
               onClick={() => { 
                 setIsContentMinimized(!isContentMinimized)
                 handleUpdates(title, width, height, !isContentMinimized)

@@ -1,7 +1,7 @@
 class CreateNotes < ActiveRecord::Migration[6.0]
   def change
     create_table :notes do |t|
-      t.string :title, null: false, default: 'Note title'
+      t.string :title, null: false, default: ''
       t.string :description, null: false, default: ''
       t.float :positionX, precision: 53, null: false, default: 0
       t.float :positionY, precision: 53, null: false, default: 0
