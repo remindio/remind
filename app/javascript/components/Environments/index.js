@@ -103,7 +103,7 @@ export default function Environments(props) {
                   {environmentList.length > 0 && environmentList.map(environment => 
                     <li key={environment.id} className={environment.id == selectedEnvironmentId ? 'styled' : ''}>
                         <p 
-                          placeholder="Environment Name"
+                          placeholder={`Environment ${environmentList.findIndex(env => env.id == environment.id) + 1}`}
                           id={environment.id} 
                           onClick={(event) => setSelectedEnvironmentId(event.target.id)}>
                             {environment.name}

@@ -105,12 +105,12 @@ export default function Navbar(props) {
           { !isSideBarShowing && 
             <BsChevronDoubleRight onClick={() => setIsSideBarShowing(!isSideBarShowing)} size={24} style={{ color: "#FFFFFF", cursor: "pointer", marginRight: "25px", marginLeft: "16px" }}/>
           }
-          <div className="container-environments" style={{  }}>
+          <div className="container-environments">
             <h1
               ref={environmentNameRef}
               spellCheck={false}
               contentEditable={true}
-              placeholder="Environment name"
+              placeholder={`Environment ${environmentList.findIndex(environment => environment.id == selectedEnvironmentID) + 1}`}
               suppressContentEditableWarning={true} 
               onBlur={handleNameUpdate}
               onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
@@ -124,7 +124,7 @@ export default function Navbar(props) {
 
                   return (
                     <li  
-                      placeholder="Environment name"
+                      placeholder={`Environment ${environmentList.findIndex(env => env.id == environment.id) + 1}`}
                       key={environment.id} 
                       onClick={handleSelectEnvironment} 
                       id={environment.id}>
