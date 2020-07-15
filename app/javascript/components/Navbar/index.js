@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Environments, User } from '../../services'
 import { FiLogOut } from 'react-icons/fi'
-import { RiSettings2Line, RiLogoutBoxRLine, RiLogoutCircleRLine } from 'react-icons/ri'
+import { RiSettings2Line } from 'react-icons/ri'
 import { BsChevronDoubleRight, BsChevronDoubleLeft, BsFillPersonFill } from 'react-icons/bs'
-import { IoMdExit, IoMdAddCircleOutline } from 'react-icons/io'
+import { IoMdAddCircleOutline } from 'react-icons/io'
 import './style.scss'
 
 export default function Navbar(props) {
@@ -49,25 +49,27 @@ export default function Navbar(props) {
   async function handleNameUpdate(event) {
     const newEnvironmentName = event.target.textContent
 
-    setSelectedEnvironment({...selectedEnvironment, name: newEnvironmentName})
+    if (props.currentUser.id == selectedEnvironment.created_by) {
+      setSelectedEnvironment({...selectedEnvironment, name: newEnvironmentName})
 
-    const params = {
-      environment: {
-        name: newEnvironmentName
+      const params = {
+        environment: {
+          name: newEnvironmentName
+        }
       }
-    }
 
-    const response = await Environments.update(selectedEnvironment.id, params)
+      const response = await Environments.update(selectedEnvironment.id, params)
 
-    if (response.data.status === "success") {
-      const newEnvironmentList = environmentList.map(environment => {
-        if (environment.id === selectedEnvironment.id)
-          return { ...environment, name: newEnvironmentName }
-        
-        return environment
-      })
+      if (response.data.status === "success") {
+        const newEnvironmentList = environmentList.map(environment => {
+          if (environment.id === selectedEnvironment.id)
+            return { ...environment, name: newEnvironmentName }
+          
+          return environment
+        })
 
-      setEnvironmentList(newEnvironmentList)
+        setEnvironmentList(newEnvironmentList)
+      }
     }
   }
 
@@ -112,6 +114,12 @@ export default function Navbar(props) {
               contentEditable={true}
               placeholder={`Environment ${environmentList.findIndex(environment => environment.id == selectedEnvironmentID) + 1}`}
               suppressContentEditableWarning={true} 
+              onFocus={() => { 
+                if (props.currentUser.id != selectedEnvironment.created_by) {
+                  environmentNameRef.current.blur()
+                  alert("You are not the owner of this environment!")
+                }
+              }}
               onBlur={handleNameUpdate}
               onKeyDown={(event) => { if (event.keyCode === 13) event.target.blur() }}
               >{selectedEnvironment ? selectedEnvironment.name : ''}

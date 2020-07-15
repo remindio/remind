@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react"
 import Navbar from '../../components/Navbar'
 import NoteStructure from '../../components/NoteStructure'
 import OptionMenu from '../../components/OptionMenu'
-import { Environments, Notes, Tasks } from '../../services'
+import { User, Environments, Notes, Tasks } from '../../services'
 import './style.scss'
 
 export default function Main() {
   const [currentEnvironmentID, setCurrentEnvironmentID] = useState(0)
   const [environmentList, setEnvironmentList] = useState([])
+  const [currentUser, setCurrentUser] = useState({})
   const [optionMenu, setOptionMenu] = useState([])
   const [notes, setNotes] = useState([])
   const [tasks, setTasks] = useState([])
@@ -31,7 +32,13 @@ export default function Main() {
       }
     }
 
+    async function loadUserData() {
+      const response = await User.show()
+      setCurrentUser(response.data)
+    }
+
     loadEnvironments()
+    loadUserData()
   }, [])
 
   useEffect(() => {
@@ -136,7 +143,8 @@ export default function Main() {
     <>
       <Navbar
         users={users}
-        environmentList={environmentList} 
+        environmentList={environmentList}
+        currentUser={currentUser}
         fetchEnvironmentContent={fetchEnvironmentContent}
       />
       <div className="content" onContextMenu={renderOptionMenu} ref={contentRef}>
