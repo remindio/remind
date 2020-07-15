@@ -31,16 +31,16 @@ export default function Profile() {
       setId(response.data.id)
 
       if (response.data.avatar)
-        setImageUrl(`${response.data.avatar}`);
+        setImageUrl(`${response.data.avatar}`)
     }
 
     loadProfileContent()
   }, [])
 
   useEffect(() => {
-    if (image !== '')
+    if (image !== '') {
       handleProfileUpdate({ name, email, occupation, company_name: company, avatar: image })
-
+    }
   }, [image])
 
 
